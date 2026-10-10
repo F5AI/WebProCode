@@ -23,6 +23,30 @@ Tổng năm đầu với lựa chọn chính: 2.388.000đ + VAT 8% ≈ 2.579.000
 
 Nguồn: [AZDIGI Pro VPS](https://azdigi.com/pro-vps), [Vietnix VPS SSD](https://vietnix.vn/vps-ssd/), [DigitalOcean Droplet pricing](https://www.digitalocean.com/pricing/droplets), [Mắt Bão bảng giá tên miền](https://www.matbao.net/ten-mien/bang-gia-ten-mien.html). Giá có thể đổi; đối chiếu lại ở bước thanh toán.
 
+## 0c. Năm phương án trọn gói (cập nhật 11/10/2026, không dùng .vn)
+
+Chủ dự án không chọn .vn (quản lý chặt, giá cao). Mọi phương án dưới đây đều gồm đủ: VPS, tên miền, DNS, HTTPS, backup ngoài máy, giám sát uptime, và phần chưa có (admin, bank). Giá đọc từ trang chính thức ngày 11/10/2026, chưa VAT trừ khi ghi rõ; giá USD quy đổi theo tỷ giá ngân hàng lúc mua.
+
+Tên miền đã kiểm tra **còn trống** qua RDAP của registry (ngày 11/10/2026): `f5aistudio.com`, `f5aistudio.net`, `f5ai.studio`, `f5aistudio.studio`, `f5ai.app`, `f5ai.dev`, `f5aistudio.app`, `f5aistudio.dev`, `f5aistudio.ai`, `f5studio.ai`, `f5ai.tv`, `f5aistudio.tv`. Đã có chủ: `f5ai.com`, `f5ai.net`, `f5ai.ai`, `f5studio.com`. Chưa kiểm được (registry .io/.co/.tech không trả RDAP chuẩn): `f5ai.io`, `f5ai.co`, `f5ai.tech`; kiểm lại lúc mua.
+
+Giá tên miền (năm đầu / gia hạn, mỗi năm). Mắt Bão (VND, trả nội địa): .com 249.000/369.000; .app 509.000/509.000; .dev 779.000/779.000; .studio 469.000/1.509.000; .tv 839.000; .io 2.389.000; .ai 3.209.500; .co 1.129.000; .tech 1.829.000. Porkbun (USD, cần thẻ quốc tế hoặc PayPal): .com 11,08/11,08; .app 8,75/14,93; .dev 8,75/12,87; .studio 11,84/41,71; .tv 26,26; .io 28,12/51,80; .ai 82,70; .co 15,76/31,20; .tech 6,99/50,98. Cloudflare Registrar bán .com giá gốc không cộng phí nhưng không công bố số trên trang sản phẩm.
+
+Phần dùng chung, miễn phí, cho cả 5 phương án: DNS và chống DDoS lớp 7 bằng Cloudflare (gói Free); HTTPS Let's Encrypt qua Caddy trong `deploy/`; giám sát uptime bằng UptimeRobot (gói Free, 5 phút/lần); backup ngoài máy hằng ngày lên Cloudflare R2 (10 GB miễn phí) bằng cron + `rclone`; CI GitHub Actions đã có. Phần chưa có, phải tự tạo: tài khoản quản trị (email + mật khẩu 12 ký tự trở lên, nhập trên server), ba thông tin nhận chuyển khoản, tài khoản Cloudflare/UptimeRobot/R2 (đăng ký bằng email f5ai.team), SSH key. Lưu ý pháp lý cần tự xem, ngoài phạm vi kỹ thuật: website thu phí thành viên có thể phải thông báo với Bộ Công Thương (online.gov.vn).
+
+| # | Phương án | VPS | Tên miền | Ước tính năm đầu | Năm sau | Hợp với |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | **Tiết kiệm tối đa** | AZDIGI Pro VPS Platinum-1: 1 vCPU, 1 GB, 10 GB SSD, 200 Mbps; 99.000đ/th × 12 = 1.188.000đ (+VAT 8% = 1.283.000đ) | `f5aistudio.com` tại Mắt Bão 249.000đ | ≈ 1,53 triệu | ≈ 1,65 triệu | Chạy thử thật với chi phí thấp nhất. 1 GB RAM đủ chạy app nhưng không đủ build Docker tại chỗ: build image ở CI rồi kéo về, hoặc bật swap 2 GB; 10 GB đĩa chứa được khoảng 50 video 100 MB |
+| 2 | **Cân bằng (khuyên dùng)** | AZDIGI Pro VPS Platinum-2: 2 vCPU, 2 GB, 20 GB SSD, 200 Mbps; 199.000đ/th × 12 = 2.388.000đ (+VAT = 2.579.000đ) | `f5aistudio.com` tại Mắt Bão 249.000đ; tùy chọn thêm `f5ai.studio` 469.000đ làm tên ngắn chuyển hướng về cùng site | ≈ 2,83 triệu (≈ 3,30 triệu nếu thêm .studio) | ≈ 2,95 triệu (≈ 4,46 triệu nếu giữ .studio, gia hạn 1.509.000đ) | Website đầu tay, khán giả Việt Nam, thanh toán nội địa, một hóa đơn VAT; đủ build Docker tại chỗ |
+| 3 | **Nhiều video, đĩa lớn** | Vietnix VPS SSD Linux 1: 2 CPU, 2 GB, 40 GB SSD, 200 Mbps trong nước / 10 Mbps quốc tế; 210.000đ/th, chu kỳ 1 năm giảm 10% = 189.000đ/th = 2.268.000đ (+VAT = 2.449.000đ); mã VIETNIX_WELCOME giảm thêm 5% lần đầu; hoàn tiền 30 ngày | `f5aistudio.com` tại Mắt Bão 249.000đ | ≈ 2,70 triệu | ≈ 2,82 triệu | Dự định tải nhiều video giảng viên (40 GB ≈ 300 video 100 MB); khán giả trong nước; chấp nhận khách nước ngoài xem chậm |
+| 4 | **Thương hiệu công nghệ (.ai)** | Vietnix VPS NVMe Linux 1: 2 CPU AMD EPYC, 2 GB, 40 GB NVMe, 400 Mbps trong nước / 10 Mbps quốc tế; 360.000đ/th, 1 năm giảm 10% = 324.000đ/th = 3.888.000đ (+VAT = 4.199.000đ) | `f5aistudio.ai` tại Porkbun 82,70 USD/năm (Mắt Bão 3.209.500đ); kèm `f5aistudio.com` 249.000đ để chuyển hướng | ≈ 4,45 triệu + 82,70 USD | ≈ 4,57 triệu + 82,70 USD | Muốn tên miền .ai đúng chất AI và máy nhanh nhất trong nước; chi phí gấp 1,6 lần phương án 2 |
+| 5 | **Quốc tế, trả USD** | DigitalOcean Basic 1 vCPU, 2 GiB, 50 GiB, region Singapore: 12 USD/th = 144 USD/năm; bật Backups hằng tuần +20% = 28,80 USD/năm | `f5ai.app` tại Porkbun 8,75 USD năm đầu (14,93 USD gia hạn) hoặc `f5aistudio.com` 11,08 USD | ≈ 182 USD | ≈ 188 USD | Có thẻ quốc tế, dự định có người xem ngoài Việt Nam, muốn thao tác hoàn toàn bằng console/API; độ trễ từ VN tới Singapore chấp nhận được |
+
+Khuyến nghị: **phương án 2** với `f5aistudio.com` làm tên chính (rẻ, ai cũng tin, gia hạn ổn định 369.000đ). Muốn tên ngắn và "chất studio" thì mua thêm `f5ai.studio` để chuyển hướng về tên chính, nhưng tính trước gia hạn 1.509.000đ/năm tại Mắt Bão (41,71 USD tại Porkbun). Tránh .xyz/.site/.online/.icu: rẻ năm đầu nhưng gia hạn 499.000–1.029.000đ và hay bị lọc spam. .app/.dev bắt buộc HTTPS (hợp với Caddy), gia hạn ổn định, nhưng dân văn phòng ít quen; .ai đắt và theo Mắt Bão bán tối thiểu 2 năm.
+
+Lộ trình chuyển đổi: bắt đầu bằng phương án 1 hoặc 3 vẫn lên được phương án 2 sau này vì toàn bộ dữ liệu nằm trong một volume Docker: dừng app, sao chép volume sang máy mới, đổi bản ghi A, xong.
+
+Nguồn: [Mắt Bão bảng giá tên miền quốc tế](https://www.matbao.net/ten-mien/bang-gia-ten-mien.html), [Porkbun domain pricing](https://porkbun.com/products/domains), [Cloudflare Registrar](https://www.cloudflare.com/products/registrar/), [AZDIGI Pro VPS](https://azdigi.com/pro-vps), [Vietnix VPS SSD](https://vietnix.vn/vps-ssd/), [Vietnix VPS NVMe](https://vietnix.vn/vps/), [DigitalOcean Droplet pricing](https://www.digitalocean.com/pricing/droplets). Kiểm tra tên miền: RDAP Verisign (.com/.net), Google Registry (.app/.dev), Identity Digital (.studio), rdap.org (.ai/.tv).
+
 ## 1. Việc cần chủ dự án làm (cần tài khoản hoặc tiền)
 
 | # | Việc | Gợi ý | Kết quả cần có |

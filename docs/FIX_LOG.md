@@ -47,7 +47,7 @@ Ba con số theo dõi (tính trên 6 loại đầu, `/fix-review` tự tính):
 - Gốc: Bản bàn giao chốt "nền sáng, cam nhấn" trước khi anh thấy bản chạy; anh đổi ý sau khi xem. Không phải lỗi; nhưng màu cũ nằm rải ở ~300 chỗ nên đổi theme tốn một vòng viết lại thay vì đổi một bảng token.
 - Khóa: `tests/theme.test.mjs` (đỏ nếu :root về nền sáng, nếu dán lại màu kem cũ, hoặc nếu có màu hex ngoài token trong styles.css)
 - Luật: R-14 (số/màu hay đổi phải nằm một chỗ) — nay đã đưa vào token. Đề xuất: PREFLIGHT câu 3 nên hỏi thêm "sáng hay tối, hai tone chính là gì" khi dựng giao diện mới.
-- Commit: 02b506e
+- Commit: (điền sau khi commit)
 
 ## FIX-002 · Rà soát bảo mật, tối ưu code, dựng demo cục bộ trước khi bàn việc publish
 - date: 2026-10-11 · type: feature · takes: 1 · status: closed
@@ -85,3 +85,12 @@ Ba con số theo dõi (tính trên 6 loại đầu, `/fix-review` tự tính):
 - Khóa: không khóa được bằng test trong repo (lỗi của máy, không phải của code); CI Ubuntu vẫn build/chạy image độc lập. Ghi dấu hiệu nhận biết vào `handover/VALIDATION.md` mục 15 để lần sau tra log thay vì bấm "Recover" mù.
 - Luật: đề xuất ghi chú env: image/container Docker trên máy này đã mất sạch cùng thư mục `wsl`; không giữ dữ liệu quan trọng trong volume Docker cục bộ, chỉ dùng `.data-demo/` ngoài Docker.
 - Commit: 1df0bf2
+
+## FIX-006 · Năm phương án hosting + tên miền quốc tế (không .vn)
+- date: 2026-10-11 · type: changed-mind · takes: 1 · status: closed
+- Anh nói: "hãy tạo luôn 5 đề xuất, mỗi đề xuất đầy đủ các thứ tôi cần và đang thiếu. tên miền sẽ không chọn .vn vì sự quản lý sẽ chặt hơn ngoài ra giá cao hơn. có thể chọn 1 tên miền .com hoặc dễ còn tên miền hơn như các đuôi khác không phải.com, ngoài ra tên miền cũng có yếu tố công nghệ hoặc dễ nhớ, uy tín" (11/10/2026, đêm)
+- Take 1: Đọc bảng giá chính thức Mắt Bão (quốc tế), Porkbun, Cloudflare; kiểm tra trống 12 tên miền qua RDAP registry; viết 5 phương án trọn gói (VPS, domain, DNS, HTTPS, backup, uptime, admin, bank, pháp lý) vào `handover/PUBLISH.md` mục 0c; ADR-005 thay phần tên miền của ADR-004.
+- Gốc: Anh đổi ý sau khi thấy giá .vn (ADR-004); không phải lỗi. Nên hỏi sớm "đuôi tên miền nào" trong PREFLIGHT khi tư vấn hosting.
+- Khóa: không áp dụng (tư vấn).
+- Luật: R-06 (giá đọc từ trang chính thức, có ngày), R-16 (tự rà: tên miền đã kiểm trống thật, không đoán).
+- Commit: (điền sau khi commit)
