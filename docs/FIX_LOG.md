@@ -57,7 +57,7 @@ Ba con số theo dõi (tính trên 6 loại đầu, `/fix-review` tự tính):
 - Khóa: `tests/backend.test.mjs` (3 test mới + sửa 2 test cũ: origin/header production, giá từ cấu hình, cache static, khóa theo email, upload giả)
 - Luật: R-07 (một phiên, một thư mục) bị vi phạm do chạy song song; R-13 đã làm (sub-agent rà soát độc lập sau khi sửa).
 - Anh xác nhận: "duyệt, tiến hành publish" (11/10/2026, đêm) → closed.
-- Commit: (điền sau khi commit)
+- Commit: 5821e1a
 
 ## FIX-003 · Tiến hành publish sau khi duyệt demo
 - date: 2026-10-11 · type: feature · takes: 1 · status: open
@@ -66,4 +66,4 @@ Ba con số theo dõi (tính trên 6 loại đầu, `/fix-review` tự tính):
 - Gốc: Không phải lỗi; yêu cầu mới. Phụ thuộc ngoài: chưa có server, domain, tài khoản hosting hay bank thật được cấp.
 - Khóa: không khóa được bằng test cục bộ vì phụ thuộc hạ tầng ngoài; CI `.github/workflows/ci.yml` khóa phần build image + health.
 - Luật: R-06 (giá hosting tra nguồn chính thức, ghi ngày trong PUBLISH.md).
-- Commit: (điền sau khi commit)
+- Commit: 5821e1a
