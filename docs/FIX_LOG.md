@@ -91,6 +91,7 @@ Ba con số theo dõi (tính trên 6 loại đầu, `/fix-review` tự tính):
 - Anh nói: "hãy tạo luôn 5 đề xuất, mỗi đề xuất đầy đủ các thứ tôi cần và đang thiếu. tên miền sẽ không chọn .vn vì sự quản lý sẽ chặt hơn ngoài ra giá cao hơn. có thể chọn 1 tên miền .com hoặc dễ còn tên miền hơn như các đuôi khác không phải.com, ngoài ra tên miền cũng có yếu tố công nghệ hoặc dễ nhớ, uy tín" (11/10/2026, đêm)
 - Take 1: Đọc bảng giá chính thức Mắt Bão (quốc tế), Porkbun, Cloudflare; kiểm tra trống 12 tên miền qua RDAP registry; viết 5 phương án trọn gói (VPS, domain, DNS, HTTPS, backup, uptime, admin, bank, pháp lý) vào `handover/PUBLISH.md` mục 0c; ADR-005 thay phần tên miền của ADR-004.
 - Gốc: Anh đổi ý sau khi thấy giá .vn (ADR-004); không phải lỗi. Nên hỏi sớm "đuôi tên miền nào" trong PREFLIGHT khi tư vấn hosting.
+- Anh chốt: "chọn phương án 2. liệt kê ngắn gọn đầu việc dạng danh sách. tôi sẽ tự làm" (11/10/2026, đêm) → tự triển khai theo PUBLISH.md mục 1–3.
 - Khóa: không áp dụng (tư vấn).
 - Luật: R-06 (giá đọc từ trang chính thức, có ngày), R-16 (tự rà: tên miền đã kiểm trống thật, không đoán).
 - Commit: f66fdad
