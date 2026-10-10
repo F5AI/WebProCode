@@ -208,3 +208,64 @@ CHROMIUM_PATH=/usr/bin/chromium npm run test:preview
 HTML trong gói đã được kiểm tra trực tiếp mà không sinh lại trước test, nhằm xác nhận artifact bàn giao tự chạy được. Build mới từ source cũng đã đạt. Phần này chưa chạy lại server/CMS/browser online trên bản giải nén; các kiểm tra đó đã đạt ở các mục trước với cùng mã nguồn. Không mở cổng server trong phiên kiểm tra ZIP.
 
 Gói cuối sẽ được sinh lại sau khi thêm biên bản này và manifest cuối, nên kích thước/hash có thể khác gói kiểm tra ban đầu; không có thay đổi mã ứng dụng hoặc kiểm thử sau kết quả này. Xem `handover/MANIFEST.json` để kiểm tra từng file và dùng `f5-ai-studio-claude-handover.zip.sha256` đi kèm để xác nhận SHA-256 của archive cuối.
+
+## 11. Kiểm tra lại trên Windows desktop (11/10/2026)
+
+Thực thi thật trên máy desktop Windows 11 Pro của chủ dự án, thư mục `G:\Dong Goi Nghiep Vu\WebProCode`, clone từ nhánh `claude-handover`. Server dev được giữ chạy để chủ dự án mở website tại `http://localhost:5173`.
+
+| Thành phần | Giá trị đã kiểm tra |
+| --- | --- |
+| Node.js / npm | `v25.0.0` / `11.6.2` |
+| Browser tự động | Google Chrome đã cài sẵn (`C:\Program Files\Google\Chrome\Application\chrome.exe`) qua `CHROMIUM_PATH` |
+| Media fixture | FFmpeg có trên PATH, test video không bị bỏ qua |
+| Lưu trữ test | `test:admin` dùng SQLite tạm riêng; `test:browser` chạy vào một server production tạm ở cổng 3002 với `DATABASE_PATH` tạm, không chạm `.data/club.sqlite` |
+
+| Lệnh / hạng mục | Kết quả |
+| --- | --- |
+| `npm ci` | PASS |
+| `npm test` | PASS 8/8 sau khi sửa test symlink (xem bên dưới) |
+| `npm run build` | PASS |
+| `npm run dev` | PASS, API 3001 và Vite 5173; `/api/health` trả `{"status":"ok"}` qua cả hai cổng |
+| `npm run test:browser` (base URL cổng 3002) | PASS 4 viewport, lưu bài, tải file thật, premium 401 khi chưa đăng nhập, đăng ký, quan tâm CLB, đăng xuất/đăng nhập |
+| `npm run test:admin` | PASS CMS, upload HTML/MP4 free/premium, duyệt chuyển khoản, premium download/video |
+| `npm run preview:export` + `npm run test:preview` | PASS: HTML ngoại tuyến 4 viewport, lưu bài, tải HTML free, premium khóa, ghi dữ liệu bị từ chối, không request mạng |
+| Kiểm tra tay trong browser desktop | Trang chủ 8 bài; tìm "kich ban" không dấu ra 3 kết quả; mở bài qua `?resource=script`; 2 file miễn phí tải được với `Content-Disposition: attachment`; dialog đăng nhập/tạo tài khoản; dialog Câu lạc bộ ở trạng thái "sắp mở cửa" vì chưa cấu hình bank; viewport 375 px không tràn ngang, có thanh điều hướng dưới |
+
+Những điểm riêng của Windows đã gặp và cách xử lý:
+
+- PowerShell chặn `npm.ps1` theo execution policy mặc định. Dùng `npm.cmd` / `npx.cmd` hoặc `start-windows.cmd`; không đổi policy toàn máy.
+- Chromium do `npx playwright install chromium` tải về bị lỗi "side-by-side configuration is incorrect" trên máy này. Đặt `CHROMIUM_PATH` tới Google Chrome đã cài là đủ cho cả ba bộ test browser.
+- `tests/backend.test.mjs` tạo symlink để kiểm tra server từ chối file upload trỏ ra ngoài. Windows không bật Developer Mode trả `EPERM` khi tạo symlink; test đã được sửa để bỏ qua riêng bước đó trên máy không có quyền symlink, các bước còn lại vẫn chạy. Trên Linux hành vi test không đổi.
+- `.env` được tạo từ `.env.example` với giá trị mặc định (không bank, không admin). Chưa tạo admin thật vì chưa có email/mật khẩu của chủ dự án.
+
+Chưa làm trên Windows: Docker (Docker Desktop có cài nhưng engine không chạy), HTTPS/reverse proxy, GPU.
+
+
+## 12. Theme tối (11/10/2026, chiều)
+
+Đổi toàn bộ giao diện sang theme tối navy sẫm + trắng ngà theo yêu cầu chủ dự án (FIX-001). Hai stylesheet `src/styles.css` và `src/dialogs.css` được quy về token màu trong `:root`; không còn màu nền sáng hard-code. Đã kiểm tra trên Windows 11, Google Chrome qua `CHROMIUM_PATH`:
+
+- `npm test`: 9/9 PASS (8 test API cũ + `tests/theme.test.mjs` khóa theme tối).
+- `npm run build`: PASS.
+- `npm run preview:export` + `npm run test:preview`: PASS, `website-preview.html` đã sinh lại với banner tối.
+- Chụp thật qua Playwright ở 1440/820/390 px: trang chủ, lộ trình, hướng dẫn, dialog bài học, đăng nhập, câu lạc bộ. Hero xếp dọc đúng ở 390 px.
+- Chưa chạy lại `test:browser` và `test:admin` sau đổi theme; hai bộ này không kiểm màu, chỉ kiểm hành vi, nên rủi ro thấp.
+
+## 13. Rà soát bảo mật, tối ưu và demo cục bộ (11/10/2026, đêm)
+
+Thực thi thật trên Windows 11, Node v25.0.0, Google Chrome qua `CHROMIUM_PATH`, FFmpeg có trên PATH. Không chạm `.data/`, `.env`; mọi test dùng SQLite tạm.
+
+| Lệnh / hạng mục | Kết quả |
+| --- | --- |
+| `npm audit` (prod và dev) | 0 lỗ hổng trong dependencies đã khóa |
+| `npm test` | PASS 11/11 backend (8 cũ + 3 mới: header/origin production, giá từ cấu hình, cache static) cùng `tests/theme.test.mjs` |
+| `npm run build` | PASS |
+| `npm run test:admin` | PASS CMS, upload HTML + MP4 thật (ffmpeg), duyệt chuyển khoản, premium download/video |
+| `npm run test:browser` (server production tạm cổng 3002, DB tạm) | PASS 4 viewport, lưu bài, tải file, premium 401/403, đăng ký, quan tâm CLB, logout/login; không lỗi console với CSP mới |
+| `node scripts/demo-local.mjs` | PASS: `http://localhost:3080`, `/api/health` 200 với `checks.database/uploads = ok`, CSP/X-Frame-Options/no-store có trong header, bank demo hiển thị, admin demo đăng nhập được |
+
+Thay đổi bảo mật đã khóa bằng test (`tests/backend.test.mjs`): origin dev bị từ chối ở production; `Sec-Fetch-Site: cross-site` bị chặn; khóa đăng nhập theo email sau 10 lần sai còn email khác vẫn 401; upload `.mp4`/`.html` giả bị 400 và xóa khỏi đĩa; tên file tải về dễ đọc (`Free guide.html`); API `no-store`, video premium `private, no-store`; `/assets/*` immutable 1 năm, `index.html` revalidate, đường dẫn có đuôi file lạ trả 404; `PLAN_PRICE`/`PLAN_DAYS` sai thì về mặc định.
+
+Rà soát độc lập (sub-agent chỉ đọc, R-13) sau đợt sửa đầu: không có lỗi mức cao; 3 mức trung bình đã sửa và khóa test: (1) giới hạn theo IP đếm cả đăng nhập đúng nên văn phòng/proxy chung IP bị khóa → nay chỉ đếm lần sai, 50/IP, đăng ký riêng 30/IP; (2) khóa theo email chặn cả chủ tài khoản → nay mật khẩu đúng vẫn vào; (3) mỗi request parse lại toàn bộ CMS → cache catalogue trong bộ nhớ, danh sách bỏ `sections`. Mức thấp đã sửa: unique index một đơn chờ/người (3 request đồng thời tạo 1 đơn), bank chỉ cho người đăng nhập, URL ảnh/video phải https, `COOKIE_SECURE`/`TRUST_PROXY` nhận true/false và báo lỗi giá trị lạ, `APP_ORIGIN` http bị bỏ qua ở production, HSTS khi `APP_ORIGIN` https, `Cross-Origin-Resource-Policy`, xóa phiên cũ khi `npm run admin` đổi mật khẩu, `VOLUME /app/.data` trong Dockerfile, limiter giới hạn 5000 khóa. Chưa làm (ghi nhận): đơn chờ không hết hạn, `/api/health` công khai, enumeration email qua 409 khi đăng ký.
+
+Chưa chạy lại trong đợt này: `npm run preview:export` / `test:preview` (file HTML offline do phiên theme tối đang sinh lại, tránh ghi đè chéo), Docker, HTTPS thật.

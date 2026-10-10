@@ -12,3 +12,5 @@ tsconfig.tsbuildinfo
 handover/evidence
 handover/MANIFEST.json
 handover/SHA256SUMS.txt
+.data-demo
+.env.demo

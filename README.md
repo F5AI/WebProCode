@@ -6,6 +6,14 @@ Website tiếng Việt chia sẻ tài nguyên làm phim AI cho người mới. B
 
 Để chuyển sang Claude Code Desktop, đọc [HANDOVER.md](HANDOVER.md), chọn thư mục project đã giải nén và dùng prompt `handover/AGENT-PROMPT.md`. Gói đầy đủ có thể tạo lại bằng `python scripts/package-handover.py`; Python chỉ dùng cho đóng gói, không cần để chạy website.
 
+## Demo cục bộ bản production
+
+```bash
+node scripts/demo-local.mjs
+```
+
+Trên Windows có thể bấm `start-demo.cmd`. Lệnh build frontend khi cần, chạy API + frontend cùng cổng `http://localhost:3080`, dùng database riêng `.data-demo/` và bank demo ghi rõ chưa phải tài khoản thật. Tài khoản quản trị demo nằm trong `.env.demo` (tự tạo, đã gitignore). Dữ liệu thật trong `.data/` không bị chạm.
+
 ## Chạy trong môi trường phát triển
 
 Yêu cầu Node.js **24 trở lên** (dùng SQLite tích hợp), npm. Không cần cơ sở dữ liệu hoặc dịch vụ trả phí bên ngoài.

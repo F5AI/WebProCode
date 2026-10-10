@@ -8,3 +8,6 @@ dist/
 tsconfig.tsbuildinfo
 f5-ai-studio-*.zip
 f5-ai-studio-*.zip.sha256
+.f5kit/
+.data-demo/
+.env.demo

@@ -26,7 +26,7 @@ Lệnh `npm start` chạy production bằng Node preloader, không dùng cú ph�
 - Bài viết kết hợp hướng dẫn, video preview, workflow và file thực hành HTML/Markdown/JSON/CSV/SRT hoặc định dạng liên quan.
 - CLB trả phí theo tháng mở video đầy đủ, workflow/file nâng cấp giúp làm nhanh và tự động hơn. Bản miễn phí vẫn phải đủ quy trình cơ bản.
 - Bản đang có đề xuất **199.000đ / 30 ngày**, chuyển khoản và admin duyệt sau đối chiếu. Chưa có tự trừ tiền hoặc auto-renewal. Giá là đề xuất trong code, không phải giá người dùng tự đưa; nếu đổi, sửa server và UI thống nhất.
-- Thiết kế sáng, điểm nhấn cam, ảnh điện ảnh, font Be Vietnam Pro local; sidebar PC và điều hướng mobile. Responsive 1440/820/390/360 px đã được kiểm tra.
+- Thiết kế tối (navy sẫm `#0b0e14` + trắng ngà `#eef1f6`, điểm nhấn cam than `#ff6a3d`, vàng kim cho khu CLB), phong cách tối giản công nghệ, ảnh điện ảnh, font Be Vietnam Pro local; sidebar PC và điều hướng mobile. Đổi từ bản sáng ngày 11/10/2026 theo yêu cầu chủ dự án (FIX-001, ADR-001). Toàn bộ màu là token trong `:root` của `src/styles.css`. Responsive 1440/820/390 px đã chụp lại với theme tối.
 
 ## Đã có trong source
 
@@ -56,10 +56,12 @@ Copy `.env.example` thành `.env` nếu cần; không đưa secret vào chat ho�
 
 | Biến | Dùng để |
 | --- | --- |
-| `PORT` | Cổng production/API, mặc định 3001; dev launcher cố định 3001 |
+| `PORT`, `HOST` | Cổng production/API, mặc định 3001 và `0.0.0.0`; dev launcher cố định 3001 |
 | `DATABASE_PATH` | Database riêng cho test/custom deployment; mặc định `.data/club.sqlite` |
 | `APP_ORIGIN` | Origin HTTPS public chính xác khi triển khai |
 | `TRUST_PROXY=1` | Chỉ khi đúng một reverse proxy đáng tin cậy |
+| `COOKIE_SECURE=0` | Chỉ cho demo HTTP trong mạng nội bộ; production giữ trống (cookie Secure) |
+| `PLAN_PRICE`, `PLAN_DAYS` | Giá và số ngày của gói CLB; mặc định 199000 / 30, UI đọc từ API |
 | `BANK_NAME`, `BANK_ACCOUNT`, `BANK_ACCOUNT_NAME` | Ba thông tin nhận chuyển khoản công khai; để trống khi chưa có bank thật |
 | `F5AI_ADMIN_EMAIL`, `F5AI_ADMIN_PASSWORD` | Bootstrap admin bằng `npm run admin`; password 12–128 ký tự, xóa env password sau tạo thành công |
 
@@ -77,7 +79,7 @@ Browser tests cần Chromium. Mặc định `/usr/bin/chromium` chỉ phù hợp
 - `npm run test:admin`: build trước, database/server riêng; FFmpeg cho fixture MP4 (thiếu sẽ skip video, không được báo video đã test).
 - `npm run preview:export` rồi `npm run test:preview`: không cần server/database, test HTML self-contained qua origin được intercept; không phải kiểm tra native file://.
 
-Đã kiểm tra trên Linux: 8/8 backend, build, 4 viewport browser, CMS/admin/membership/uploads/video fixture và offline HTML. Bản ZIP trước đó đã cài/run test từ giải nén sạch. Chưa thực thi Windows/macOS, Docker hoặc GPU; không biến những runbook đó thành bằng chứng đã chạy.
+Đã kiểm tra trên Linux: 8/8 backend, build, 4 viewport browser, CMS/admin/membership/uploads/video fixture và offline HTML. Bản ZIP trước đó đã cài/run test từ giải nén sạch. Đã kiểm tra lại trên Windows 11 ngày 11/10/2026 (Node 25, Google Chrome làm Chromium cho test): 8/8 backend, build, 4 viewport browser, CMS/admin/membership/video fixture và offline HTML đều PASS; chi tiết và lưu ý Windows trong `handover/VALIDATION.md` mục 11. Chưa thực thi macOS, Docker hoặc GPU; không biến những runbook đó thành bằng chứng đã chạy.
 
 ## Triển khai tiếp theo
 
@@ -92,7 +94,18 @@ Nếu có hạ tầng/quyền được cấp hợp lệ, triển khai và xác m
 - `handover/DESKTOP.md`: PowerShell/macOS/Linux/browser/admin/deploy commands.
 - `handover/VALIDATION.md`: bằng chứng kiểm tra thực.
 - `handover/EXECUTION.md`: runbook triển khai, backlog và nghiệm thu.
+- `handover/PUBLISH.md`: lộ trình đưa lên Internet bằng `deploy/docker-compose.yml` + Caddy HTTPS; việc cần chủ dự án cấp (VPS, domain, bank) và bảng nghiệm thu từ máy ngoài.
 
 Các tài liệu nói chưa commit/push hoặc remote rỗng là trạng thái **trước thao tác chuyển source sang GitHub**. Kiểm tra Git refs hiện tại để biết trạng thái mới; không suy luận từ archive cũ. Bản HTML/ZIP không phải website public.
+
+Trên Windows: chạy `start-windows.cmd` (hoặc `npm.cmd run dev` nếu PowerShell chặn `npm.ps1`) rồi mở `http://localhost:5173`.
+
+## Demo cục bộ bản production (không chạm dữ liệu thật)
+
+`start-demo.cmd` (Windows) hoặc `node scripts/demo-local.mjs` build frontend khi cần rồi chạy API + frontend cùng cổng `http://localhost:3080` với database riêng `.data-demo/`, bank demo ghi rõ "chưa phải tài khoản thật" và một tài khoản quản trị demo. Email/mật khẩu quản trị demo nằm trong `.env.demo` (tự tạo lần đầu, đã gitignore); không dùng cho website thật. Demo chạy HTTP nên script đặt `COOKIE_SECURE=0`; website thật dùng HTTPS và không đặt biến này.
+
+## Bảo mật đã rà soát (11/10/2026)
+
+Header `Content-Security-Policy`, `X-Frame-Options: DENY`, `Permissions-Policy`, HSTS khi chạy HTTPS; chặn ghi khi `Sec-Fetch-Site: cross-site` hoặc Origin lạ, origin dev chỉ được phép ngoài production; khóa đăng nhập theo email (10 lần sai/15 phút) bên cạnh giới hạn theo IP (30/15 phút); upload kiểm tra chữ ký nội dung (MP4/WebM/PDF/ZIP/text) ngoài đuôi file; hash scrypt chạy bất đồng bộ; file tải về có tên dễ đọc; asset build cache 1 năm, `index.html` luôn revalidate; `/api/health` báo trạng thái database và thư mục upload. Chi tiết trong `handover/TECHNICAL.md` mục 13 và `handover/VALIDATION.md` mục 12. Chưa có: xác minh email, đặt lại mật khẩu, 2FA, quét mã độc file, rate limit chia sẻ nhiều instance.
 
 Hãy bắt đầu chạy ứng dụng và mở browser ngay. Báo kết quả ngắn: địa chỉ thật để mở, các thay đổi cần thiết, test và blocker còn lại. Không hỏi lại, không dừng sau một kế hoạch.

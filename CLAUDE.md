@@ -55,6 +55,23 @@ Chỉ đọc phần liên quan trong tài liệu dài khi đã biết nhiệm v�
 
 ## Làm việc hiệu quả
 
-Giữ phong cách hiện có: nền sáng, điểm nhấn cam, hình điện ảnh, font Be Vietnam Pro local, sidebar desktop và điều hướng mobile. Không thêm framework, service trả phí, analytics, form hỏi lại hoặc dashboard phức tạp khi chưa cần.
+Giữ phong cách hiện có: theme tối navy sẫm + trắng ngà (tối giản, công nghệ, chất điện ảnh), điểm nhấn cam than dùng tiết chế, hình điện ảnh, font Be Vietnam Pro local, sidebar desktop và điều hướng mobile. Mọi màu đi qua token trong `:root` của `src/styles.css`; không dán màu hex mới vào rule (test `tests/theme.test.mjs` khóa điều này). Không thêm framework, service trả phí, analytics, form hỏi lại hoặc dashboard phức tạp khi chưa cần.
 
 Sau mỗi thay đổi: kiểm tra phù hợp, cập nhật tài liệu trạng thái, rồi bàn giao đường dẫn thật có thể mở. Thông báo ngắn gọn những phát hiện và blocker trong quá trình làm. Không kết thúc chỉ bằng ảnh screenshot hoặc câu “đã làm xong” khi người dùng chưa có cách mở website.
+
+<!-- F5KIT-START · F5 App Kit v1 · managed by /setup-tracking, edit the kit instead -->
+## Fix history (F5 App Kit)
+
+@~/.claude/f5-app-kit/PLAYBOOK.md
+
+Bruce wants a complete history of every correction: what was wrong, why, how it was fixed, how many takes. Hooks save his raw messages and the session transcripts in `.f5kit/`; you keep the readable record.
+
+- **Every correction, bug report or change request from Bruce** → an entry in `docs/FIX_LOG.md` (format at the top of that file), his words quoted verbatim. The same problem reported again = a new take on the existing entry, not a new entry. A hook reminds you when his message looks like a correction; if it is not one, append one line to `.f5kit/not_fix.log`.
+- **Classify the origin** in `type`: spec-gap · misread · code-bug · fact · env · process · changed-mind · feature · advice (legend in FIX_LOG.md). Be honest: if you misunderstood him, it is `misread`, not `spec-gap`.
+- **Before closing an entry**: root cause in one line (keep asking "why" until you reach something that can be changed), plus a regression test that fails without the fix (`Khóa:`), or the reason none is possible. Set `status: testing` until Bruce confirms or keeps using it without complaint, then `closed`.
+- **Before building a feature**: walk `docs/PREFLIGHT.md`. Ask Bruce only what his request leaves open, in one batch, with options.
+- **Before saying "done"**: apply the ✅ rules of the playbook (real small run, look at the screen like Bruce, visible entry point).
+- **Commits** that fix an entry end with a trailer line `Fix: <ID> take <n>`.
+- **Decisions** (choosing between options, changing direction) go to `docs/DECISIONS.md` as ADRs. Never rewrite an old ADR; supersede it.
+- Never edit or delete anything under `.f5kit/`. If a playbook rule looks wrong for this project, say so to Bruce and note it for `/fix-review`; do not silently ignore it.
+<!-- F5KIT-END -->

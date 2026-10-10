@@ -20,5 +20,5 @@ export type Resource = {
 };
 export type Download = { name: string; file?: string; mime?: string; url?: string | null; locked?: boolean };
 export type User = { id: string; name: string; email: string; role: 'user' | 'admin'; isMember: boolean; memberUntil: string | null };
-export type Order = { id: number | string; reference?: string; status: string; amount?: number; createdAt?: string; email?: string; name?: string; user?: { id: string; name: string; email: string }; durationDays?: number; currency?: string; approvedAt?: string | null };
-export type PaymentConfig = { price: number; currency: string; paymentConfigured: boolean; bank?: { name: string; account: string; accountName: string } | null; bankName?: string; bankAccount?: string; bankAccountName?: string; interested?: boolean; durationDays?: number };
+export type Order = { id: string; reference: string; status: 'pending' | 'approved'; amount: number; currency: string; durationDays: number; createdAt: string; approvedAt?: string | null; user?: { id: string; name: string; email: string } };
+export type PaymentConfig = { price: number; currency: string; durationDays: number; paymentConfigured: boolean; bank: { name: string; account: string; accountName: string } | null; interested: boolean };

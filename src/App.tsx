@@ -6,7 +6,7 @@ import {
   Clock3, PanelTop, Download, BookOpen,
 } from 'lucide-react';
 import { api } from './api';
-import type { Resource, User } from './types';
+import type { PaymentConfig, Resource, User } from './types';
 import ResourceDialog from './components/ResourceDialog';
 import AuthDialog from './components/AuthDialog';
 import MembershipDialog from './components/MembershipDialog';
@@ -15,6 +15,7 @@ import AdminDialog from './components/AdminDialog';
 type Page = 'discover' | 'roadmap' | 'saved' | 'help';
 const categories = ['Tất cả', 'Kịch bản', 'Nhân vật', 'Bối cảnh', 'Video', 'Hậu kỳ'];
 const typeLabels = { workflow: 'Workflow', video: 'Bài học video', guide: 'Hướng dẫn' };
+const vnd = new Intl.NumberFormat('vi-VN');
 const journeySteps = [
   { name: 'Ý tưởng & kịch bản', description: 'Từ một ý tưởng đến câu chuyện 3 phút', category: 'Kịch bản', icon: FileText },
   { name: 'Nhân vật & bối cảnh', description: 'Tạo thế giới nhất quán cho bộ phim', category: 'Nhân vật', icon: WandSparkles },
@@ -43,6 +44,7 @@ export default function App() {
   const [authReturn, setAuthReturn] = useState(false);
   const [mobileNav, setMobileNav] = useState(false);
   const [toast, setToast] = useState('');
+  const [plan, setPlan] = useState<Pick<PaymentConfig, 'price' | 'durationDays'>>({ price: 199000, durationDays: 30 });
   const searchInput = useRef<HTMLInputElement>(null);
 
   async function loadResources() {
@@ -54,6 +56,7 @@ export default function App() {
   useEffect(() => {
     void loadResources();
     api<{user: User | null}>('/api/session').then(result => setUser(result.user)).catch(() => {});
+    api<PaymentConfig>('/api/membership/config').then(result => setPlan({ price: result.price, durationDays: result.durationDays || 30 })).catch(() => {});
     const onPop = () => {
       const params = new URLSearchParams(location.search);
       setSelected(params.get('resource'));
@@ -204,12 +207,12 @@ export default function App() {
           ['Tôi có cần trả phí để hoàn thành bộ phim không?', 'Không. Các bài và file cơ bản bao quát toàn bộ quy trình hoàn thành phim 3 phút. Tài nguyên CLB bổ sung tự động hóa và công cụ nâng cao. Các công cụ bên ngoài có thể có yêu cầu phần cứng hoặc phí riêng.'],
           ['Các bài có video hướng dẫn chưa?', 'Bộ tài nguyên ban đầu hiện có hướng dẫn văn bản và file thực hành. Những bài mang định dạng video được ghi rõ khi video minh họa chưa được bổ sung; bạn vẫn có thể đọc và thực hành theo hướng dẫn.'],
           ['Tham gia Studio Club có giúp tôi kiếm được tiền không?', 'Tài nguyên giúp bạn cải thiện quy trình sản xuất, nhưng không bảo đảm doanh thu. Hiệu quả kênh phụ thuộc nội dung, người xem và việc bạn thực hành, thử nghiệm.'],
-          ['Quyền thành viên được tính như thế nào?', 'Mỗi lần thanh toán được xác nhận sẽ mở quyền truy cập tài nguyên cao cấp trong 30 ngày. Hiện dùng chuyển khoản có xác nhận, không tự động gia hạn hoặc trừ tiền.'],
+          ['Quyền thành viên được tính như thế nào?', `Mỗi lần thanh toán được xác nhận sẽ mở quyền truy cập tài nguyên cao cấp trong ${plan.durationDays} ngày. Hiện dùng chuyển khoản có xác nhận, không tự động gia hạn hoặc trừ tiền.`],
         ].map(([question,answer]) => <details key={question}><summary>{question}<ChevronDown size={18} /></summary><p>{answer}</p></details>)}</div></section>}
 
         {page === 'discover' && <section className="bottom-panels">
           <div className="journey-panel"><div className="panel-topline"><span className="section-eyebrow">TỪ SỐ 0 ĐẾN THƯỚC PHIM ĐẦU TIÊN</span><span className="tiny-badge">MIỄN PHÍ</span></div><h2>Một bộ phim. Bốn bước.</h2><p>Không lạc giữa hàng trăm công cụ. Cứ đi từng bước.</p><div className="mini-journey">{journeySteps.map((step,index) => <button key={step.name} onClick={() => {navigate('roadmap');}}><span className="journey-number">0{index+1}</span><step.icon size={20} /><span>{step.name}</span><ChevronRight size={15} /></button>)}</div><button className="text-link" onClick={() => navigate('roadmap')}>Khám phá lộ trình đầy đủ <ArrowRight size={16} /></button></div>
-          <div className="membership-panel"><span className="membership-star">✳︎</span><span className="section-eyebrow">F5 AI STUDIO CLUB</span><h2>Sáng tạo nhiều hơn.<br />Thao tác ít hơn.</h2><p>Công cụ nâng cao cho những ý tưởng<br className="desktop-break" /> bạn muốn đưa xa hơn.</p><div className="club-features"><span><Check size={15} />Workflow nâng cao, dễ vận hành</span><span><Check size={15} />Bộ prompt & file thực hành cao cấp</span><span><Check size={15} />Công cụ tự động hóa quy trình</span></div><div className="membership-price"><b>199.000<span>đ</span></b><span>/ 30 ngày</span></div><button className="button club-join-button" onClick={join}>Khám phá quyền lợi thành viên <ArrowUpRight size={17} /></button><span className="club-fineprint">Gia hạn chủ động · Không tự động trừ tiền</span></div>
+          <div className="membership-panel"><span className="membership-star">✳︎</span><span className="section-eyebrow">F5 AI STUDIO CLUB</span><h2>Sáng tạo nhiều hơn.<br />Thao tác ít hơn.</h2><p>Công cụ nâng cao cho những ý tưởng<br className="desktop-break" /> bạn muốn đưa xa hơn.</p><div className="club-features"><span><Check size={15} />Workflow nâng cao, dễ vận hành</span><span><Check size={15} />Bộ prompt & file thực hành cao cấp</span><span><Check size={15} />Công cụ tự động hóa quy trình</span></div><div className="membership-price"><b>{vnd.format(plan.price)}<span>đ</span></b><span>/ {plan.durationDays} ngày</span></div><button className="button club-join-button" onClick={join}>Khám phá quyền lợi thành viên <ArrowUpRight size={17} /></button><span className="club-fineprint">Gia hạn chủ động · Không tự động trừ tiền</span></div>
         </section>}
 
         <footer className="footer"><span className="footer-logo">f5<span>✳︎</span> <span>AI STUDIO</span></span><p>Sáng tạo là một hành trình. Bạn không phải đi một mình.</p><button onClick={() => navigate('help')}>Cần một điểm bắt đầu? <ArrowUpRight size={14} /></button></footer>

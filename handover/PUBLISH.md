@@ -1,0 +1,81 @@
+# Đưa F5 AI Studio lên Internet — runbook publish
+
+Trạng thái ngày 11/10/2026: mã nguồn đã rà soát bảo mật, demo cục bộ đã được chủ dự án duyệt. **Chưa có** server, domain, tài khoản hosting hay bank thật được cấp cho agent, nên chưa có địa chỉ công khai. Tài liệu này là lộ trình chính xác để lên online trong một buổi khi đã có ba thứ: một VPS, một domain, thông tin nhận chuyển khoản.
+
+## 0. Kiến trúc chọn mặc định
+
+Một VPS Linux chạy Docker Compose với hai container: `app` (Node 24, Express, SQLite, uploads trong volume `f5-data`) và `caddy` (reverse proxy, tự xin và gia hạn chứng chỉ HTTPS Let's Encrypt). File ở `deploy/docker-compose.yml` và `deploy/Caddyfile`. Lý do: rẻ nhất, một máy, dữ liệu bền vững trên đĩa, không cần dịch vụ database ngoài, HTTPS tự động, backup chỉ là sao chép một volume.
+
+Phương án bị loại: static hosting (Netlify/Vercel/GitHub Pages) vì không chạy được API + SQLite; PaaS có đĩa tạm (Heroku kiểu cũ, Render free) vì mất database khi restart; Kubernetes vì quá nặng cho một website nhỏ.
+
+## 1. Việc cần chủ dự án làm (cần tài khoản hoặc tiền)
+
+| # | Việc | Gợi ý | Kết quả cần có |
+| --- | --- | --- | --- |
+| 1 | Thuê VPS Ubuntu 24.04, tối thiểu 1 vCPU / 2 GB RAM / 20 GB SSD, IPv4 | DigitalOcean Basic 1 GB khoảng 6 USD/tháng (nguồn tổng hợp kiểm lại ngày 03/09/2026, xem cuối file); Hetzner rẻ hơn nhưng giá/model đổi nhiều trong 2026, tra `hetzner.com/cloud` lúc mua. Nên lấy gói 2 GB để build image thoải mái. | Địa chỉ IP, SSH key đăng nhập `root` hoặc user có `sudo` |
+| 2 | Mua hoặc dùng domain sẵn có | Ví dụ `studio.f5ai.vn` (tên chỉ là ví dụ) | Quyền sửa DNS |
+| 3 | Trỏ DNS: bản ghi `A` của domain (và `www` nếu muốn) về IP VPS | TTL 300 giây | `nslookup <domain>` trả đúng IP |
+| 4 | Chuẩn bị thông tin nhận chuyển khoản thật | Tên ngân hàng, số tài khoản, tên chủ tài khoản; đây là thông tin công khai với người đã đăng nhập | 3 giá trị `BANK_*` |
+| 5 | Chọn email + mật khẩu quản trị (12–128 ký tự) | Không gửi qua chat; gõ trực tiếp trên server | Dùng một lần ở bước 2.5 |
+| 6 | Tùy chọn: đổi giá/thời hạn gói | `PLAN_PRICE`, `PLAN_DAYS` | Số trong `.env` |
+
+Cấp cho agent (nếu muốn agent triển khai thay): quyền SSH vào VPS và quyền sửa DNS. Không cần cấp mật khẩu admin hay bank; agent có thể để trống và chủ dự án điền sau.
+
+## 2. Các bước trên server (khoảng 30 phút)
+
+```bash
+# 2.1 Cài Docker (Ubuntu 24.04)
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER && newgrp docker
+
+# 2.2 Lấy mã nguồn
+git clone -b claude-handover https://github.com/F5AI/WebProCode.git f5-ai-studio
+cd f5-ai-studio
+
+# 2.3 Cấu hình (chỉ sửa trên server, không commit)
+cp .env.example .env
+nano .env   # điền BANK_NAME, BANK_ACCOUNT, BANK_ACCOUNT_NAME; PLAN_* nếu đổi; để trống COOKIE_SECURE; TRUST_PROXY=1
+
+# 2.4 Chạy (DOMAIN là domain đã trỏ DNS ở bước 1.3)
+DOMAIN=studio.example.com docker compose -f deploy/docker-compose.yml up -d --build
+docker compose -f deploy/docker-compose.yml logs -f caddy   # chờ dòng "certificate obtained"
+
+# 2.5 Tạo tài khoản quản trị (gõ mật khẩu trực tiếp, không lưu vào .env)
+docker compose -f deploy/docker-compose.yml exec \
+  -e F5AI_ADMIN_EMAIL=chu@domain.vn -e F5AI_ADMIN_PASSWORD='mat-khau-dai-cua-ban' \
+  app node server/index.mjs --create-admin
+```
+
+Mở firewall chỉ 22, 80, 443 (`ufw allow 22,80,443/tcp && ufw enable`). Compose đã đặt `TRUST_PROXY=1` và `APP_ORIGIN=https://<DOMAIN>` cho container `app`; không cần đặt lại trong `.env`.
+
+## 3. Nghiệm thu từ máy khác (bắt buộc trước khi báo "đã lên")
+
+| Khi | Thì thấy |
+| --- | --- |
+| Mở `https://<domain>` trên điện thoại 4G | Trang chủ 8 bài, khóa HTTPS hợp lệ, không cảnh báo |
+| `curl -sI https://<domain>/api/health` | `200`, có `strict-transport-security`, `content-security-policy`, `cross-origin-resource-policy` |
+| Tạo tài khoản rồi tải lại trang | Vẫn đăng nhập (cookie `Secure` qua HTTPS) |
+| Tải một file miễn phí | Tải được, tên file dễ đọc |
+| Gọi `/api/downloads/<id>/premium/0` khi chưa đăng nhập / đã đăng nhập chưa trả phí | `401` / `403` |
+| Đăng nhập admin, đăng một bài, upload một file | Bài hiện ngay cho khách; file tải được |
+| `docker compose restart app` rồi tải lại | Tài khoản, bài, file vẫn còn (volume bền) |
+| Thành viên tạo yêu cầu, admin xác nhận sau khi **thực sự thấy tiền** | Thành viên thấy "đang là thành viên", tải được file cao cấp |
+
+## 4. Vận hành
+
+- **Backup hằng ngày:** `docker run --rm -v f5-ai-studio_f5-data:/data -v $PWD/backup:/backup alpine tar czf /backup/f5-data-$(date +%F).tgz /data` (chạy bằng cron; giữ 14 bản). Khôi phục: dừng `app`, giải nén vào volume, chạy lại.
+- **Cập nhật:** `git pull && DOMAIN=... docker compose -f deploy/docker-compose.yml up -d --build`. Có lỗi thì `git checkout <commit cũ>` rồi chạy lại lệnh đó.
+- **Theo dõi:** `docker compose ps` (healthcheck `app`), `docker compose logs --since 1h app`. `/api/health` trả 503 khi database hoặc thư mục upload hỏng.
+- **Không làm:** bật `COOKIE_SECURE=0` trên website thật; mở cổng 3001 ra ngoài; commit `.env`; copy file SQLite đang ghi thay cho backup đúng cách.
+
+## 5. Còn thiếu sau khi lên online (backlog, không chặn publish)
+
+- Xác minh email và đặt lại mật khẩu (cần một dịch vụ gửi mail).
+- Đơn chờ không tự hết hạn; admin chưa có nút từ chối đơn.
+- Nội dung thật: video giảng viên, workflow nâng cao đã render; hiện mới có bài viết và file thực hành.
+- Giám sát uptime bên ngoài (ví dụ một dịch vụ ping miễn phí) và cảnh báo khi `/api/health` khác 200.
+
+## Nguồn giá (tra ngày 11/10/2026)
+
+- DigitalOcean Basic 1 GB: 6 USD/tháng, kiểm lại trên trang giá ngày 03/09/2026 theo [vpsbenchmarks.com](https://vpsbenchmarks.com/hosters/digitalocean/plans/std_1gb_1core) và [whtop.com](https://www.whtop.com/amp/plans/digitalocean.com/137790).
+- Hetzner: các gói CX đổi model và tăng giá trong 2026, nguồn mâu thuẫn ([vincentschmalbach.com](https://www.vincentschmalbach.com/hetzner-cheap-cloud-unavailable-price-increases/), [kimmo.suominen.com](https://kimmo.suominen.com/stuff/cpc-2026-08.txt)); tra trực tiếp `hetzner.com/cloud` khi mua.

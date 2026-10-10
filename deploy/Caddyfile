@@ -1,0 +1,18 @@
+{$DOMAIN} {
+	encode zstd gzip
+	# Uploads are capped at 100 MB by the app; keep Caddy's limit a little above that.
+	request_body {
+		max_size 110MB
+	}
+	reverse_proxy app:3001 {
+		# Long video uploads and streams must not be cut by the proxy.
+		transport http {
+			read_timeout 10m
+			write_timeout 10m
+		}
+	}
+	log {
+		output stdout
+		format console
+	}
+}

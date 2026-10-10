@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main, claude-handover]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - name: Docker image builds and answers /api/health
+        run: |
+          docker build -t f5-ai-studio:ci .
+          docker run -d --name f5 -p 3001:3001 -e COOKIE_SECURE=0 f5-ai-studio:ci
+          for i in $(seq 1 20); do curl -fs http://127.0.0.1:3001/api/health && break || sleep 1; done
+          curl -fs http://127.0.0.1:3001/api/health | grep '"status":"ok"'
+          curl -fs http://127.0.0.1:3001/api/resources | grep -c '"id"'
+          docker rm -f f5
