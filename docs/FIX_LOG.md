@@ -47,7 +47,7 @@ Ba con số theo dõi (tính trên 6 loại đầu, `/fix-review` tự tính):
 - Gốc: Bản bàn giao chốt "nền sáng, cam nhấn" trước khi anh thấy bản chạy; anh đổi ý sau khi xem. Không phải lỗi; nhưng màu cũ nằm rải ở ~300 chỗ nên đổi theme tốn một vòng viết lại thay vì đổi một bảng token.
 - Khóa: `tests/theme.test.mjs` (đỏ nếu :root về nền sáng, nếu dán lại màu kem cũ, hoặc nếu có màu hex ngoài token trong styles.css)
 - Luật: R-14 (số/màu hay đổi phải nằm một chỗ) — nay đã đưa vào token. Đề xuất: PREFLIGHT câu 3 nên hỏi thêm "sáng hay tối, hai tone chính là gì" khi dựng giao diện mới.
-- Commit: (điền sau khi commit)
+- Commit: 02b506e
 
 ## FIX-002 · Rà soát bảo mật, tối ưu code, dựng demo cục bộ trước khi bàn việc publish
 - date: 2026-10-11 · type: feature · takes: 1 · status: closed
