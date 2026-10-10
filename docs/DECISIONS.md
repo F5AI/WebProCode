@@ -34,3 +34,11 @@ Decision: Giữ kiểm Origin, thêm từ chối khi `Sec-Fetch-Site: cross-site
 Alternatives: Double-submit cookie token → loại vì thêm bề mặt lỗi, lợi ích biên nhỏ với SameSite=Lax + Origin + Fetch Metadata; SameSite=Strict → loại vì link chia sẻ `?resource=id` mở từ ngoài sẽ mất phiên.
 Consequences: + Hai test khóa trong `tests/backend.test.mjs`; − Client không phải trình duyệt (script, curl) không gửi Origin/Sec-Fetch-Site vẫn gọi được API ghi khi có cookie hợp lệ, đó là hành vi chấp nhận được.
 Linked: FIX-002
+
+## ADR-004: Hosting cho bản đầu: VPS Việt Nam (AZDIGI Pro VPS Platinum-2) + tên miền .vn
+Status: Accepted (2026-10-11)
+Context: Chủ dự án ở Việt Nam, website đầu tay, khán giả trong nước, ngân sách nhỏ, cần thanh toán nội địa và hỗ trợ tiếng Việt. App là một container Node + SQLite, không cần scale ngang.
+Decision: Thuê AZDIGI Pro VPS Platinum-2 (2 vCPU/2 GB/20 GB, 199.000đ/tháng chu kỳ 12 tháng, chưa VAT) đặt tại DC Việt Nam; tên miền .vn (558.000đ năm đầu tại Mắt Bão hoặc tại AZDIGI). HTTPS bằng Caddy + Let's Encrypt theo `deploy/`.
+Alternatives: Vietnix VPS SSD Linux 1 (210.000đ/tháng, 40 GB, hoàn tiền 30 ngày) → giữ làm phương án thay thế khi muốn trả theo tháng hoặc cần đĩa lớn hơn, nhược điểm 10 Mbps quốc tế; DigitalOcean Singapore 12 USD/tháng → loại ở bản đầu vì cần thẻ quốc tế và độ trễ cao hơn với người xem VN; Hetzner → loại vì giá/model đổi liên tục trong 2026 và không có DC gần VN ngoài Singapore; static hosting/PaaS đĩa tạm → loại vì không giữ được SQLite và upload.
+Consequences: + Chi phí ≈ 3,14 triệu đồng năm đầu, một hóa đơn VAT; + Độ trễ trong nước thấp, thanh toán MoMo/chuyển khoản. − 20 GB đĩa cần theo dõi khi upload nhiều video (nâng gói hoặc chuyển Vietnix 40 GB); − Băng thông quốc tế của VPS VN thấp, khán giả ngoài VN xem video chậm.
+Linked: FIX-004

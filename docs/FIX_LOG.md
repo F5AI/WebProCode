@@ -67,3 +67,12 @@ Ba con số theo dõi (tính trên 6 loại đầu, `/fix-review` tự tính):
 - Khóa: không khóa được bằng test cục bộ vì phụ thuộc hạ tầng ngoài; CI `.github/workflows/ci.yml` khóa phần build image + health.
 - Luật: R-06 (giá hosting tra nguồn chính thức, ghi ngày trong PUBLISH.md).
 - Commit: 5821e1a
+
+## FIX-004 · Chọn nhà cung cấp hosting và tên miền cho người ở Việt Nam
+- date: 2026-10-11 · type: advice · takes: 1 · status: closed
+- Anh nói: "tôi ở Việt Nam, website đầu tay, hãy chọn các nhà cung cấp uy tín và giá tốt nhất phù hợp với quy mô và chức năng của tôi" (11/10/2026, đêm)
+- Take 1: Đọc trực tiếp bảng giá chính thức AZDIGI, Vietnix, DigitalOcean, Mắt Bão (ngày 11/10/2026); chọn AZDIGI Pro VPS Platinum-2 + tên miền .vn; ghi vào `handover/PUBLISH.md` mục 0b và ADR-004.
+- Gốc: Không phải lỗi; tư vấn. Lưu ý R-06: nguồn tổng hợp (blog so sánh) mâu thuẫn nhau, phải đọc trang chính thức.
+- Khóa: không áp dụng (advice).
+- Luật: R-06.
+- Commit: (điền sau khi commit)

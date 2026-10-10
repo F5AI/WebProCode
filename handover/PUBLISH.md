@@ -8,6 +8,21 @@ Một VPS Linux chạy Docker Compose với hai container: `app` (Node 24, Expre
 
 Phương án bị loại: static hosting (Netlify/Vercel/GitHub Pages) vì không chạy được API + SQLite; PaaS có đĩa tạm (Heroku kiểu cũ, Render free) vì mất database khi restart; Kubernetes vì quá nặng cho một website nhỏ.
 
+## 0b. Nhà cung cấp đã chọn cho chủ dự án ở Việt Nam (giá đọc từ trang chính thức ngày 11/10/2026)
+
+| Hạng mục | Chọn | Giá niêm yết | Vì sao |
+| --- | --- | --- | --- |
+| VPS (chính) | **AZDIGI Pro VPS Platinum-2**: 2 vCPU Xeon Platinum, 2 GB RAM, 20 GB SSD RAID-10, 200 Mbps, backup tuần, DC Việt Nam | 199.000đ/tháng chu kỳ 12 tháng = 2.388.000đ/năm chưa VAT 8%; chu kỳ ngắn nhất 3 tháng | Người xem ở VN nên đặt máy ở VN cho nhanh; trả bằng chuyển khoản/MoMo/VNPay, có hóa đơn VAT, hỗ trợ tiếng Việt; đủ cho Node + SQLite + vài trăm người/ngày |
+| VPS (thay thế) | **Vietnix VPS SSD Linux 1**: 2 CPU, 2 GB RAM, 40 GB SSD, 200 Mbps trong nước / 10 Mbps quốc tế, backup tuần | 210.000đ/tháng theo tháng; 178.500đ/tháng chu kỳ 2 năm; chưa VAT; hoàn tiền 30 ngày; mã VIETNIX_WELCOME giảm 5% | Chọn khi muốn trả theo tháng không cam kết, hoặc cần 40 GB cho nhiều video; nhược điểm băng thông quốc tế ra ngoài chỉ 10 Mbps |
+| VPS (khi có khán giả ngoài VN) | DigitalOcean Basic 1 vCPU / 2 GiB / 50 GiB, region Singapore | 12 USD/tháng (1 GiB: 6 USD) cùng giá mọi region | Cần thẻ quốc tế; chỉ cân nhắc sau khi có người xem ngoài VN |
+| Tên miền | **.vn** đăng ký tại Mắt Bão (hoặc tại AZDIGI cùng tài khoản VPS; phí nhà nước giống nhau) | Năm đầu 558.000đ, năm sau 458.000đ (gồm lệ phí + phí duy trì nhà nước 350.000đ + quản trị). Rẻ hơn: .com.vn 458.000đ/358.000đ; .id.vn 114.000đ/104.000đ (cá nhân) | .vn tin cậy nhất với người Việt và Google Việt Nam; .id.vn/.io.vn chỉ nên dùng nếu muốn tối thiểu chi phí |
+| HTTPS | Let's Encrypt qua Caddy trong `deploy/` | 0đ | Tự gia hạn |
+| Email gửi thông báo (sau này) | Chưa cần ở bản đầu | — | Chỉ cần khi làm xác minh email/đặt lại mật khẩu |
+
+Tổng năm đầu với lựa chọn chính: 2.388.000đ + VAT 8% ≈ 2.579.000đ (VPS) + 558.000đ (.vn) ≈ **3,14 triệu đồng**, tức khoảng 262.000đ/tháng. Năm sau ≈ 3,04 triệu. Mua VPS tại cùng nhà cung cấp với domain để một tài khoản, một hóa đơn.
+
+Nguồn: [AZDIGI Pro VPS](https://azdigi.com/pro-vps), [Vietnix VPS SSD](https://vietnix.vn/vps-ssd/), [DigitalOcean Droplet pricing](https://www.digitalocean.com/pricing/droplets), [Mắt Bão bảng giá tên miền](https://www.matbao.net/ten-mien/bang-gia-ten-mien.html). Giá có thể đổi; đối chiếu lại ở bước thanh toán.
+
 ## 1. Việc cần chủ dự án làm (cần tài khoản hoặc tiền)
 
 | # | Việc | Gợi ý | Kết quả cần có |
