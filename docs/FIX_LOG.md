@@ -84,4 +84,4 @@ Ba con số theo dõi (tính trên 6 loại đầu, `/fix-review` tự tính):
 - Gốc: File đĩa ảo của Docker nằm trong `AppData\Local` và bị xóa ngoài Docker (dọn ổ/tay), còn WSL không tự gỡ đăng ký distro mất đĩa; Docker Desktop chỉ báo lỗi mạng chung chung thay vì "thiếu file vhdx".
 - Khóa: không khóa được bằng test trong repo (lỗi của máy, không phải của code); CI Ubuntu vẫn build/chạy image độc lập. Ghi dấu hiệu nhận biết vào `handover/VALIDATION.md` mục 15 để lần sau tra log thay vì bấm "Recover" mù.
 - Luật: đề xuất ghi chú env: image/container Docker trên máy này đã mất sạch cùng thư mục `wsl`; không giữ dữ liệu quan trọng trong volume Docker cục bộ, chỉ dùng `.data-demo/` ngoài Docker.
-- Commit: (điền sau khi commit)
+- Commit: 1df0bf2
