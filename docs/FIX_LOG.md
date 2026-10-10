@@ -66,6 +66,7 @@ Ba con số theo dõi (tính trên 6 loại đầu, `/fix-review` tự tính):
 - Gốc: Không phải lỗi; yêu cầu mới. Phụ thuộc ngoài: chưa có server, domain, tài khoản hosting hay bank thật được cấp.
 - Khóa: không khóa được bằng test cục bộ vì phụ thuộc hạ tầng ngoài; CI `.github/workflows/ci.yml` khóa phần build image + health.
 - Luật: R-06 (giá hosting tra nguồn chính thức, ghi ngày trong PUBLISH.md).
+- Anh nói tiếp: "hãy tiến hành việc tiếp theo như đề xuất của bạn" (11/10/2026, đêm, sau khi Docker Desktop chạy được) → tập dượt nguyên stack `deploy/docker-compose.yml` + Caddy trên Windows với `DOMAIN=localhost`, chạy đủ bảng nghiệm thu mục 3 (9/9 đạt, VALIDATION mục 16). Phát hiện runbook thiếu `DOMAIN` cho các lệnh compose chạy sau → thêm `DOMAIN=` vào `.env.example` và `--env-file .env` vào mọi lệnh trong PUBLISH.md. Phần còn lại (VPS, domain, DNS, Let's Encrypt thật) anh tự làm theo FIX-006.
 - Commit: 5821e1a
 
 ## FIX-004 · Chọn nhà cung cấp hosting và tên miền cho người ở Việt Nam

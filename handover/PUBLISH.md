@@ -73,19 +73,19 @@ cd f5-ai-studio
 
 # 2.3 Cấu hình (chỉ sửa trên server, không commit)
 cp .env.example .env
-nano .env   # điền BANK_NAME, BANK_ACCOUNT, BANK_ACCOUNT_NAME; PLAN_* nếu đổi; để trống COOKIE_SECURE; TRUST_PROXY=1
+nano .env   # điền DOMAIN (domain đã trỏ DNS ở bước 1.3), BANK_NAME, BANK_ACCOUNT, BANK_ACCOUNT_NAME; PLAN_* nếu đổi; để trống COOKIE_SECURE; TRUST_PROXY=1
 
-# 2.4 Chạy (DOMAIN là domain đã trỏ DNS ở bước 1.3)
-DOMAIN=studio.example.com docker compose -f deploy/docker-compose.yml up -d --build
-docker compose -f deploy/docker-compose.yml logs -f caddy   # chờ dòng "certificate obtained"
+# 2.4 Chạy (mọi lệnh compose đều có --env-file .env để đọc DOMAIN; thiếu nó compose báo "required variable DOMAIN is missing")
+docker compose --env-file .env -f deploy/docker-compose.yml up -d --build
+docker compose --env-file .env -f deploy/docker-compose.yml logs -f caddy   # chờ dòng "certificate obtained successfully"
 
 # 2.5 Tạo tài khoản quản trị (gõ mật khẩu trực tiếp, không lưu vào .env)
-docker compose -f deploy/docker-compose.yml exec \
+docker compose --env-file .env -f deploy/docker-compose.yml exec \
   -e F5AI_ADMIN_EMAIL=chu@domain.vn -e F5AI_ADMIN_PASSWORD='mat-khau-dai-cua-ban' \
-  app node server/index.mjs --create-admin
+  app node server/index.mjs --create-admin   # in "Admin account configured."
 ```
 
-Mở firewall chỉ 22, 80, 443 (`ufw allow 22,80,443/tcp && ufw enable`). Compose đã đặt `TRUST_PROXY=1` và `APP_ORIGIN=https://<DOMAIN>` cho container `app`; không cần đặt lại trong `.env`.
+Mở firewall chỉ 22, 80, 443 (`ufw allow 22,80,443/tcp && ufw enable`). Compose đã đặt `TRUST_PROXY=1` và `APP_ORIGIN=https://<DOMAIN>` cho container `app`; không cần đặt lại trong `.env`. Toàn bộ mục 2.4–2.5 và bảng mục 3 đã được tập dượt trên máy Windows của chủ dự án ngày 11/10/2026 với `DOMAIN=localhost` (Caddy cấp chứng chỉ nội bộ): kết quả ở `handover/VALIDATION.md` mục 16.
 
 ## 3. Nghiệm thu từ máy khác (bắt buộc trước khi báo "đã lên")
 
@@ -97,14 +97,14 @@ Mở firewall chỉ 22, 80, 443 (`ufw allow 22,80,443/tcp && ufw enable`). Compo
 | Tải một file miễn phí | Tải được, tên file dễ đọc |
 | Gọi `/api/downloads/<id>/premium/0` khi chưa đăng nhập / đã đăng nhập chưa trả phí | `401` / `403` |
 | Đăng nhập admin, đăng một bài, upload một file | Bài hiện ngay cho khách; file tải được |
-| `docker compose restart app` rồi tải lại | Tài khoản, bài, file vẫn còn (volume bền) |
+| `docker compose --env-file .env -f deploy/docker-compose.yml restart app` rồi tải lại | Tài khoản, bài, file vẫn còn (volume bền) |
 | Thành viên tạo yêu cầu, admin xác nhận sau khi **thực sự thấy tiền** | Thành viên thấy "đang là thành viên", tải được file cao cấp |
 
 ## 4. Vận hành
 
 - **Backup hằng ngày:** `docker run --rm -v f5-ai-studio_f5-data:/data -v $PWD/backup:/backup alpine tar czf /backup/f5-data-$(date +%F).tgz /data` (chạy bằng cron; giữ 14 bản). Khôi phục: dừng `app`, giải nén vào volume, chạy lại.
-- **Cập nhật:** `git pull && DOMAIN=... docker compose -f deploy/docker-compose.yml up -d --build`. Có lỗi thì `git checkout <commit cũ>` rồi chạy lại lệnh đó.
-- **Theo dõi:** `docker compose ps` (healthcheck `app`), `docker compose logs --since 1h app`. `/api/health` trả 503 khi database hoặc thư mục upload hỏng.
+- **Cập nhật:** `git pull && docker compose --env-file .env -f deploy/docker-compose.yml up -d --build`. Có lỗi thì `git checkout <commit cũ>` rồi chạy lại lệnh đó.
+- **Theo dõi:** `docker compose --env-file .env -f deploy/docker-compose.yml ps` (healthcheck `app`), `docker compose --env-file .env -f deploy/docker-compose.yml logs --since 1h app`. `/api/health` trả 503 khi database hoặc thư mục upload hỏng.
 - **Không làm:** bật `COOKIE_SECURE=0` trên website thật; mở cổng 3001 ra ngoài; commit `.env`; copy file SQLite đang ghi thay cho backup đúng cách.
 
 ## 5. Còn thiếu sau khi lên online (backlog, không chặn publish)

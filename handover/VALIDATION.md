@@ -285,3 +285,23 @@ Chưa chạy lại trong đợt này: `npm run preview:export` / `test:preview` 
 - **Kiểm tra image dự án trên Windows (lần đầu):** `docker build -t f5-ai-studio:verify .` PASS (npm ci 28 s, build 43 s). `docker run -d -p 3090:3001 -v f5-verify-data:/app/.data f5-ai-studio:verify`: `/api/health` 200 `{"status":"ok","checks":{"database":"ok","uploads":"ok"}}` sau 2 giây, `/api/resources` 200 (7.7 KB), `/` 200 có `<title>`. Đã xóa container và volume thử sau kiểm tra; image `f5-ai-studio:verify` giữ lại.
 - **Nâng cấp cùng đêm (theo yêu cầu chủ dự án):** `wsl --update` → WSL 3.0.1.0, kernel 6.18.40.1-microsoft-standard-WSL2; `winget upgrade --id Docker.DockerDesktop --exact` → Docker Desktop 4.94.0 (bản mới nhất ngày 05/10/2026 theo release notes), engine 29.8.2, `docker info` báo "Docker Desktop (containerized)". Sau nâng cấp kho image/container cục bộ trống lại (image thử trước đó mất); đã build lại `f5-ai-studio:verify` trên engine mới và chạy container cổng 3090: `/api/health` 200 ok sau 2 giây, `/api/resources` 200, `/` 200. Đã dọn container và volume thử.
 - **Lưu ý env:** `docker.exe` có trên PATH (`C:\Program Files\Docker\Docker\resources\bin\`). Không giữ dữ liệu quan trọng trong image/volume Docker cục bộ trên máy này: cả lần mất thư mục `wsl` lẫn lần nâng cấp 4.38 → 4.94 đều làm trống kho; dữ liệu demo giữ ở `.data-demo/`.
+
+## 16. Tập dượt stack production (compose + Caddy HTTPS) trên Windows (11/10/2026, đêm)
+
+Mục đích: chứng minh `deploy/docker-compose.yml` + `deploy/Caddyfile` và bảng nghiệm thu mục 3 của `handover/PUBLISH.md` chạy đúng trước khi chủ dự án tự triển khai phương án 2. Chạy với Docker Desktop 4.94.0 / engine 29.8.2 / WSL 3.0.1, project name riêng `f5-rehearsal`, `DOMAIN=localhost` (Caddy tự cấp chứng chỉ nội bộ, log "certificate obtained successfully … issuer local"), `.env` hiện có của repo (không có admin, không bank). Mọi volume/container tập dượt đã xóa (`down -v`) sau khi xong; không đụng `.data/`, `.data-demo/`, `.env`.
+
+| Mục nghiệm thu | Kết quả |
+| --- | --- |
+| `compose up -d --build` | Build image từ Dockerfile, `app` healthy sau 9 giây, Caddy nghe 80/443 (TCP + UDP) |
+| `curl -I https://localhost/api/health` | 200; có `Strict-Transport-Security: max-age=15552000; includeSubDomains`, `Content-Security-Policy`, `Cross-Origin-Resource-Policy: same-origin`, `X-Frame-Options: DENY` |
+| `http://localhost/` | 308 → `https://localhost/` (Caddy tự chuyển hướng) |
+| Đăng ký tài khoản rồi gọi `/api/session` | 201; cookie `f5ai_session` có `HttpOnly; Secure; SameSite=Lax`; phiên giữ được qua HTTPS |
+| Tải file miễn phí `/api/downloads/roadmap/free/0` | 200, `Content-Disposition` có tên tiếng Việt (`filename*=UTF-8''…`) |
+| `/api/downloads/roadmap/premium/0` khách / thành viên chưa trả phí | 401 / 403 |
+| Tạo admin bằng lệnh mục 2.5 (`compose exec … --create-admin`, thông tin thử sinh ngẫu nhiên, không lưu) | In "Admin account configured."; đăng nhập admin trả `role: admin` |
+| `compose restart app` rồi gọi lại | `/api/health` ok; phiên thành viên và admin vẫn còn (SQLite trong volume `f5-data`) |
+| Trang chủ qua HTTPS | 200, `<title>F5 AI Studio — Biến ý tưởng thành thước phim</title>` |
+
+Lỗ hổng runbook phát hiện và đã sửa: mọi lệnh compose chạy sau (`ps`, `logs`, `restart`, `exec`) đều cần biến `DOMAIN`, nếu không compose báo `required variable DOMAIN is missing a value`. Compose không đọc `.env` ở gốc repo cho phần nội suy khi file compose nằm trong `deploy/`. Cách sửa đã kiểm chứng: thêm `DOMAIN=` vào `.env` (có trong `.env.example`) và dùng `docker compose --env-file .env -f deploy/docker-compose.yml …` cho mọi lệnh; `env_file: ../.env` của service `app` vẫn đọc đúng. Runbook `handover/PUBLISH.md` mục 2.3–2.5, 3, 4 và chú thích đầu `deploy/docker-compose.yml` đã đổi theo.
+
+Chưa làm được ở đây (cần VPS + domain thật của chủ dự án): chứng chỉ Let's Encrypt công khai, DNS, firewall `ufw`, nghiệm thu từ điện thoại 4G, upload bài/file bằng giao diện admin trên bản HTTPS công khai.

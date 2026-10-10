@@ -1,7 +1,8 @@
 # Production stack for one VPS: the Node app + Caddy (automatic HTTPS via Let's Encrypt).
 # Run from the repository root:
-#   cp .env.example .env            # fill BANK_*, keep NODE_ENV out (the image sets it), set TRUST_PROXY=1
-#   DOMAIN=studio.example.com docker compose -f deploy/docker-compose.yml up -d --build
+#   cp .env.example .env            # fill DOMAIN, BANK_*, keep NODE_ENV out (the image sets it), set TRUST_PROXY=1
+#   docker compose --env-file .env -f deploy/docker-compose.yml up -d --build
+# --env-file .env lets every later compose command (ps, logs, restart, exec) read DOMAIN without exporting it.
 # Data (SQLite + uploads) lives in the named volume f5-data; Caddy certificates in caddy-data.
 services:
   app:
