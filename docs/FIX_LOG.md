@@ -76,3 +76,12 @@ Ba con số theo dõi (tính trên 6 loại đầu, `/fix-review` tự tính):
 - Khóa: không áp dụng (advice).
 - Luật: R-06.
 - Commit: bb613b6
+
+## FIX-005 · Docker Desktop báo "distro installation failed", engine không lên
+- date: 2026-10-11 · type: env · takes: 1 · status: testing
+- Anh nói: "đưa ra nguyên nhân và giải pháp, tự tìm cách khắc phục mà không hỏi lại. chủ động phân tích ảnh, đọc liên kết sau: https://docs.docker.com/desktop/troubleshoot-and-support/troubleshoot/…#diagnose-from-the-terminal" (11/10/2026, đêm, kèm ảnh hộp thoại "Docker Desktop distro installation failed")
+- Take 1: Đọc log `%LOCALAPPDATA%\Docker\log\host\monitor.log`: lỗi gốc là `open \wsl$\docker-desktop\etc\wsl_bootstrap_version: The specified network name is no longer available`. Chạy tay `wsl -d docker-desktop` → `Failed to attach disk C:\Users\Bruce\AppData\Local\Docker\wsl\main\ext4.vhdx … ERROR_PATH_NOT_FOUND`. Thư mục `%LOCALAPPDATA%\Docker\wsl` đã bị xóa hoàn toàn (ổ C còn ~40 GB, nhiều khả năng do dọn ổ) nhưng registry WSL vẫn giữ đăng ký distro `docker-desktop` trỏ vào đó → distro mồ côi. Sửa: tắt Docker Desktop, `wsl --shutdown`, `wsl --unregister docker-desktop` (chỉ xóa đăng ký, không còn file để mất), mở lại Docker Desktop → WSL tạo lại `main/ext4.vhdx` + `disk/docker_data.vhdx`, engine 27.5.1 lên, `docker run hello-world` OK. Build luôn image dự án `f5-ai-studio:verify` (exit 0), chạy container cổng 3090: `/api/health` 200 `{"status":"ok"}`, `/api/resources` 200, `/` 200; đã dọn container + volume thử.
+- Gốc: File đĩa ảo của Docker nằm trong `AppData\Local` và bị xóa ngoài Docker (dọn ổ/tay), còn WSL không tự gỡ đăng ký distro mất đĩa; Docker Desktop chỉ báo lỗi mạng chung chung thay vì "thiếu file vhdx".
+- Khóa: không khóa được bằng test trong repo (lỗi của máy, không phải của code); CI Ubuntu vẫn build/chạy image độc lập. Ghi dấu hiệu nhận biết vào `handover/VALIDATION.md` mục 15 để lần sau tra log thay vì bấm "Recover" mù.
+- Luật: đề xuất ghi chú env: image/container Docker trên máy này đã mất sạch cùng thư mục `wsl`; không giữ dữ liệu quan trọng trong volume Docker cục bộ, chỉ dùng `.data-demo/` ngoài Docker.
+- Commit: (điền sau khi commit)

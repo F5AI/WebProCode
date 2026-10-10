@@ -238,7 +238,7 @@ Những điểm riêng của Windows đã gặp và cách xử lý:
 - `tests/backend.test.mjs` tạo symlink để kiểm tra server từ chối file upload trỏ ra ngoài. Windows không bật Developer Mode trả `EPERM` khi tạo symlink; test đã được sửa để bỏ qua riêng bước đó trên máy không có quyền symlink, các bước còn lại vẫn chạy. Trên Linux hành vi test không đổi.
 - `.env` được tạo từ `.env.example` với giá trị mặc định (không bank, không admin). Chưa tạo admin thật vì chưa có email/mật khẩu của chủ dự án.
 
-Chưa làm trên Windows: Docker (Docker Desktop có cài nhưng engine không chạy), HTTPS/reverse proxy, GPU.
+Chưa làm trên Windows: Docker (Docker Desktop có cài nhưng engine không chạy — đã sửa và kiểm tra ở mục 15), HTTPS/reverse proxy, GPU.
 
 
 ## 12. Theme tối (11/10/2026, chiều)
@@ -274,5 +274,13 @@ Chưa chạy lại trong đợt này: `npm run preview:export` / `test:preview` 
 
 - Commit `5821e1a` và `6a0c877` đã push lên `origin/claude-handover` (GitHub `F5AI/WebProCode`).
 - GitHub Actions `CI` (run 38076921912) **PASS** trên Ubuntu: `npm ci`, `npm test`, `npm run build`, build Docker image từ `Dockerfile`, chạy container và `/api/health` trả `"status":"ok"`, `/api/resources` có dữ liệu. Đây là lần đầu image Docker được build và chạy thật (trên runner CI).
-- Trên máy Windows này: Docker Desktop khởi động được tiến trình nhưng engine (`dockerDesktopLinuxEngine`) không lên, giống ghi nhận ở mục 11; không build image cục bộ được.
+- Trên máy Windows này: Docker Desktop khởi động được tiến trình nhưng engine (`dockerDesktopLinuxEngine`) không lên, giống ghi nhận ở mục 11; không build image cục bộ được. → Nguyên nhân và cách sửa ở mục 15; sau khi sửa đã build/chạy image cục bộ.
 - `deploy/docker-compose.yml` + `deploy/Caddyfile` chưa chạy trên VPS thật vì chưa có server/domain; runbook và bảng nghiệm thu ở `handover/PUBLISH.md`.
+
+## 15. Docker Desktop trên Windows: sửa lỗi "distro installation failed" và kiểm tra image cục bộ (11/10/2026, đêm)
+
+- **Triệu chứng:** Docker Desktop 4.38.0 hiện hộp thoại "Docker Desktop distro installation failed … checking main distro bootstrap version: getting…", nút "Recover WSL distro"; engine không lên.
+- **Chẩn đoán (đọc log, không bấm mù):** `%LOCALAPPDATA%\Docker\log\host\monitor.log` ghi `open \wsl$\docker-desktop\etc\wsl_bootstrap_version: The specified network name is no longer available`. Chạy tay `wsl -d docker-desktop` trả `Failed to attach disk 'C:\Users\<user>\AppData\Local\Docker\wsl\main\ext4.vhdx' … ERROR_PATH_NOT_FOUND`. Thư mục `%LOCALAPPDATA%\Docker\wsl` không còn tồn tại, nhưng `HKCU\Software\Microsoft\Windows\CurrentVersion\Lxss` vẫn có distro `docker-desktop` trỏ vào đó. WSL 2.4.11, Hyper-V/WslService chạy bình thường, distro `Ubuntu` vẫn khởi động → lỗi nằm ở distro mồ côi, không phải ở WSL hay ảo hóa.
+- **Sửa:** tắt tiến trình Docker Desktop → `wsl --shutdown` → `wsl --unregister docker-desktop` (báo `ERROR_UNHANDLED_EXCEPTION` vì không còn thư mục để xóa nhưng đăng ký đã được gỡ; `wsl -l -v` chỉ còn Ubuntu) → mở lại `Docker Desktop.exe`. Docker tự tạo lại `wsl\main\ext4.vhdx` và `wsl\disk\docker_data.vhdx`; engine Docker 27.5.1 lên sau ~10 giây; `docker run --rm hello-world` in "Hello from Docker!". Toàn bộ image/container/volume cũ trên máy đã mất cùng thư mục `wsl` (không khôi phục được; dữ liệu demo nằm ở `.data-demo/` ngoài Docker nên không ảnh hưởng).
+- **Kiểm tra image dự án trên Windows (lần đầu):** `docker build -t f5-ai-studio:verify .` PASS (npm ci 28 s, build 43 s). `docker run -d -p 3090:3001 -v f5-verify-data:/app/.data f5-ai-studio:verify`: `/api/health` 200 `{"status":"ok","checks":{"database":"ok","uploads":"ok"}}` sau 2 giây, `/api/resources` 200 (7.7 KB), `/` 200 có `<title>`. Đã xóa container và volume thử sau kiểm tra; image `f5-ai-studio:verify` giữ lại.
+- **Lưu ý env:** `docker.exe` có trên PATH (`C:\Program Files\Docker\Docker\resources\bin\`). WSL 2.4.11 và Docker Desktop 4.38 đều cũ (Docker báo "New version available"); nên `wsl --update` và cập nhật Docker Desktop khi rảnh, không bắt buộc cho lỗi này. Nếu hộp thoại trên lặp lại, kiểm tra thư mục `%LOCALAPPDATA%\Docker\wsl` trước khi bấm "Recover WSL distro".
