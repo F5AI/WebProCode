@@ -1,0 +1,24 @@
+export type Resource = {
+  id: string;
+  title: string;
+  description: string;
+  type: 'workflow' | 'video' | 'guide';
+  category: string;
+  image: string;
+  duration: string;
+  level: string;
+  author: string;
+  sections?: { title: string; body: string }[];
+  freeDownloads?: Download[];
+  premiumDownloads?: Download[];
+  premiumBenefit: string;
+  videoUrl?: string | null;
+  featured: boolean;
+  step: number;
+  isLocked?: boolean;
+  premiumAvailable?: boolean;
+};
+export type Download = { name: string; file?: string; mime?: string; url?: string | null; locked?: boolean };
+export type User = { id: string; name: string; email: string; role: 'user' | 'admin'; isMember: boolean; memberUntil: string | null };
+export type Order = { id: number | string; reference?: string; status: string; amount?: number; createdAt?: string; email?: string; name?: string; user?: { id: string; name: string; email: string }; durationDays?: number; currency?: string; approvedAt?: string | null };
+export type PaymentConfig = { price: number; currency: string; paymentConfigured: boolean; bank?: { name: string; account: string; accountName: string } | null; bankName?: string; bankAccount?: string; bankAccountName?: string; interested?: boolean; durationDays?: number };

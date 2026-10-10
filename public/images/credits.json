@@ -1,0 +1,28 @@
+{
+  "assets": [
+    {
+      "file": "hero.png",
+      "source": "Original artwork generated with OpenAI Image Generation",
+      "description": "A lone astronaut on an amber desert world beneath a giant planet.",
+      "suggested_uses": [
+        "Featured film course",
+        "AI video generation",
+        "Environment production"
+      ],
+      "width": 1672,
+      "height": 940
+    },
+    {
+      "file": "character.png",
+      "source": "Original artwork generated with OpenAI Image Generation",
+      "description": "A female astronaut in an ivory suit against a warm planetary landscape.",
+      "suggested_uses": [
+        "Character consistency",
+        "Character asset creation"
+      ],
+      "width": 1448,
+      "height": 1086
+    }
+  ],
+  "notes": "These original local assets require no third-party image CDN at runtime. No Unsplash, Pexels, or Wikimedia images were downloaded because the environment proxy denied those hosts. Generated originals are retained without visual edits."
+}

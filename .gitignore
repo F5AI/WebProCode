@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.data/
+.env
+.env.local
+*.log
+.playwright/
+tsconfig.tsbuildinfo
+f5-ai-studio-*.zip
+f5-ai-studio-*.zip.sha256

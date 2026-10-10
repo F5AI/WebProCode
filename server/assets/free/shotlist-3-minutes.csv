@@ -1,0 +1,31 @@
+﻿shot_id,scene,start_seconds,duration_seconds,action,camera,prompt_notes,motion,voiceover,status
+s01-sh01,1,0,6,Mai nhìn đồng hồ trên bàn,wide,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s01-sh02,1,6,6,Mai tắt máy tính,medium,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s01-sh03,1,12,6,Mai đeo túi vải xanh,close-up,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s01-sh04,1,18,6,Mai đi đến cửa sảnh,wide,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s01-sh05,1,24,6,Toàn cảnh mưa ngoài cửa,medium,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s01-sh06,1,30,6,Mai nhìn chiếc ô trong tay,close-up,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s02-sh01,2,36,6,Mưa rơi xuống vỉa hè,wide,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s02-sh02,2,42,6,Mai mở chiếc ô,medium,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s02-sh03,2,48,6,Mai đứng dưới cửa sảnh,close-up,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s02-sh04,2,54,6,Mai bước ra rồi chậm lại,wide,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s02-sh05,2,60,6,Mai nhìn sang mái hiên,medium,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s02-sh06,2,66,6,Một người lạ đứng dưới mái hiên,close-up,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s03-sh01,3,72,6,Túi giấy của người lạ bị ướt,wide,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s03-sh02,3,78,6,Người lạ nhìn cơn mưa,medium,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s03-sh03,3,84,6,Mai nhìn người lạ,close-up,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s03-sh04,3,90,6,Mai nắm nhẹ cán ô,wide,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s03-sh05,3,96,6,Mai nhìn đường mưa trước mặt,medium,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s03-sh06,3,102,6,Mai quay lại phía mái hiên,close-up,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s04-sh01,4,108,6,Mai chìa ô về phía người lạ,wide,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s04-sh02,4,114,6,Người lạ ngước lên bất ngờ,medium,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s04-sh03,4,120,6,Hai người đứng chung dưới ô,close-up,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s04-sh04,4,126,6,Hai đôi chân bước trên nền ướt,wide,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s04-sh05,4,132,6,Hai người đến mái hiên tiếp theo,medium,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s04-sh06,4,138,6,Hai người dừng dưới đèn vàng,close-up,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s05-sh01,5,144,6,Người lạ gật đầu cảm ơn,wide,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s05-sh02,5,150,6,Mai cầm lại chiếc ô,medium,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s05-sh03,5,156,6,Mai mỉm cười nhẹ,close-up,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s05-sh04,5,162,6,Ánh đèn hắt xuống túi vải xanh,wide,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s05-sh05,5,168,6,Mai nhìn con đường trước mặt,medium,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo
+s05-sh06,5,174,6,Mai bước đi dưới ô trong mưa,close-up,"Mai: black bob hair, mustard jacket, teal bag; rainy dusk; cinematic illustration",one small movement or slow camera push,,todo

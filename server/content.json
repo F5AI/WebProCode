@@ -1,0 +1,414 @@
+[
+  {
+    "id": "roadmap",
+    "slug": "lo-trinh-phim-ai-3-phut",
+    "title": "Lộ trình: phim AI 3 phút",
+    "description": "Từ một ý tưởng đến tập phim đầu tiên. Một lộ trình miễn phí, đủ các bước để bắt đầu ngay.",
+    "type": "guide",
+    "category": "Kịch bản",
+    "image": "/images/hero.png",
+    "duration": "10 phút",
+    "level": "Cơ bản",
+    "step": 1,
+    "featured": true,
+    "sections": [
+      {
+        "title": "Chọn một câu chuyện đủ nhỏ",
+        "body": "Đích thực hành là một phim dài 180 giây, có mở đầu, trở ngại và kết thúc. Bắt đầu với 1 nhân vật chính, 1 nhân vật phụ và tối đa 2 bối cảnh. Mẫu xuyên suốt bộ tài liệu là “Chiếc ô cuối cùng”: một người tan làm giữa trời mưa, phải chọn giữ chiếc ô duy nhất hay giúp một người đang mắc kẹt."
+      },
+      {
+        "title": "Đi qua đủ 7 công đoạn",
+        "body": "Viết kịch bản → chia cảnh và shot → tạo nhân vật → tạo bối cảnh → tạo ảnh keyframe → tạo chuyển động → dựng, âm thanh và xuất phim. Bảng shotlist mẫu có 30 shot, mỗi shot 6 giây, tổng 180 giây. Kiểm tra độ dài trong phần mềm dựng; độ dài clip tạo bằng AI có thể khác kế hoạch."
+      },
+      {
+        "title": "Tạo bản đầu tiên với công cụ miễn phí",
+        "body": "Dùng ComfyUI để tạo ảnh nếu có phần cứng phù hợp, Shotcut hoặc Kdenlive để dựng, Audacity để thu và xử lý giọng đọc. Nếu chưa đủ GPU để tạo video, ghép ảnh với chuyển động pan/zoom để hoàn thành một bản phim hoạt hình tĩnh. Video sinh từ ảnh là bước nâng cấp có thể thay vào cùng shotlist; chi phí GPU và điều kiện sử dụng mô hình cần được kiểm tra riêng."
+      },
+      {
+        "title": "Hoàn thành trước khi nâng cấp",
+        "body": "Tiêu chí hoàn thành: câu chuyện dễ hiểu; nhân vật nhận ra được giữa các shot; không có hình lỗi rõ rệt; giọng đọc nghe rõ; phụ đề đúng; file H.264 MP4 dài 3 phút. Nội dung ở đây là tài liệu thực hành khởi đầu. Video hướng dẫn của giảng viên chưa được tải lên."
+      }
+    ],
+    "freeDownloads": [
+      {
+        "name": "Lộ trình thực hành đầy đủ",
+        "file": "roadmap.html",
+        "mime": "text/html; charset=utf-8"
+      },
+      {
+        "name": "Shotlist mẫu 30 shot / 180 giây",
+        "file": "shotlist-3-minutes.csv",
+        "mime": "text/csv; charset=utf-8"
+      }
+    ],
+    "premiumDownloads": [
+      {
+        "name": "Tạo shotlist & gói ComfyUI API tự động",
+        "file": "plan-film.py",
+        "mime": "text/x-python; charset=utf-8"
+      }
+    ],
+    "premiumBenefit": "Tạo bảng 180 giây và gói prompt theo từng shot bằng một lệnh; giảm thao tác chuẩn bị lặp lại.",
+    "author": "F5 AI Studio",
+    "videoUrl": null
+  },
+  {
+    "id": "script",
+    "slug": "kich-ban-chiec-o-cuoi-cung",
+    "title": "Viết kịch bản có thể sản xuất",
+    "description": "Chuyển ý tưởng thành câu chuyện 3 phút, giới hạn nhân vật và bối cảnh để dễ thực hiện.",
+    "type": "guide",
+    "category": "Kịch bản",
+    "image": "/images/script.svg",
+    "duration": "12 phút",
+    "level": "Cơ bản",
+    "step": 2,
+    "featured": false,
+    "sections": [
+      {
+        "title": "Viết ý tưởng trong một câu",
+        "body": "Dùng mẫu: “Một [nhân vật] muốn [mục tiêu], nhưng [trở ngại], nên phải [lựa chọn]”. Với phim mẫu: một nhân viên muốn về nhà nhanh nhưng chỉ còn một chiếc ô và thấy người lạ đứng dưới mưa; cô phải chọn sự tiện lợi hay giúp đỡ. Mỗi câu chuyện cần một thay đổi nhìn thấy được ở nhân vật."
+      },
+      {
+        "title": "Chia thành 5 cảnh, mỗi cảnh 36 giây",
+        "body": "Cảnh 1: tan làm và đặt mục tiêu. Cảnh 2: cơn mưa tạo trở ngại. Cảnh 3: phát hiện người cần giúp. Cảnh 4: nhân vật đưa ra lựa chọn. Cảnh 5: kết quả và hình ảnh kết thúc. Mỗi cảnh gồm 6 shot dự kiến 6 giây. Không để một shot phải diễn ra nhiều hành động phức tạp."
+      },
+      {
+        "title": "Dùng AI để tạo nháp, tự kiểm tra nhân quả",
+        "body": "Tải bộ prompt miễn phí, điền nhân vật, mục tiêu và giới hạn rồi yêu cầu AI trả bảng gồm thời lượng, hành động, giọng đọc và âm thanh. Đọc thành tiếng lời thoại trước khi tạo hình. Giữ lời đọc ngắn và dành chỗ cho khoảng lặng; đo thời gian thực tế thay vì dựa vào số từ do AI ước lượng."
+      },
+      {
+        "title": "Chốt kịch bản trước khi sinh asset",
+        "body": "Tự trả lời: người xem biết nhân vật muốn gì chưa, lựa chọn có rõ không, kết thúc có trả lời mở đầu không? Bỏ câu giải thích nếu có thể thể hiện bằng hình. Nếu dùng AI hoặc âm thanh bên ngoài, kiểm tra quyền sử dụng và chính sách công bố nội dung AI của nền tảng định đăng."
+      }
+    ],
+    "freeDownloads": [
+      {
+        "name": "Prompt viết kịch bản + mẫu 5 cảnh",
+        "file": "script-prompts.md",
+        "mime": "text/markdown; charset=utf-8"
+      },
+      {
+        "name": "Bài học viết kịch bản",
+        "file": "script.html",
+        "mime": "text/html; charset=utf-8"
+      }
+    ],
+    "premiumDownloads": [
+      {
+        "name": "Bộ prompt nâng cao toàn quy trình",
+        "file": "advanced-prompt-pack.md",
+        "mime": "text/markdown; charset=utf-8"
+      }
+    ],
+    "premiumBenefit": "Prompt kiểm tra nhân quả, giới hạn sản xuất và sửa từng shot giúp giảm số vòng viết lại.",
+    "author": "F5 AI Studio",
+    "videoUrl": null
+  },
+  {
+    "id": "storyboard",
+    "slug": "shotlist-storyboard-180-giay",
+    "title": "Chia 30 shot cho phim 180 giây",
+    "description": "Một bảng shotlist có thể tải xuống, sửa bằng Excel hoặc Google Sheets và đưa thẳng vào sản xuất.",
+    "type": "guide",
+    "category": "Kịch bản",
+    "image": "/images/script.svg",
+    "duration": "15 phút",
+    "level": "Cơ bản",
+    "step": 3,
+    "featured": false,
+    "sections": [
+      {
+        "title": "Mỗi shot chỉ có một hành động chính",
+        "body": "Chia mỗi cảnh thành toàn cảnh để giới thiệu không gian, trung cảnh cho hành động và cận cảnh để thể hiện cảm xúc hoặc chi tiết. Bảng mẫu sử dụng 30 shot × 6 giây. Giữ hướng di chuyển và vị trí nhân vật nhất quán giữa các shot liên tiếp; tránh đảo trục máy vô cớ."
+      },
+      {
+        "title": "Tạo storyboard trước khi tạo video",
+        "body": "Sinh một ảnh đại diện cho từng shot, đặt ảnh theo thứ tự trên timeline và đọc thử giọng kể. Đây là animatic để kiểm tra nhịp, không cần hình hoàn hảo. Nếu câu chuyện chưa rõ ở bản ảnh tĩnh, sửa shotlist trước khi dùng GPU để tạo chuyển động."
+      },
+      {
+        "title": "Quản lý file bằng mã shot",
+        "body": "Dùng thư mục assets/scene-01/ và tên s01-sh01-keyframe.png, s01-sh01-video.mp4. Trong CSV, ghi tình trạng todo, image-ready, video-ready hoặc approved. Lưu prompt, model, seed, tỷ lệ ảnh và ghi chú lỗi cho từng shot. Seed giúp lặp lại thiết lập trong cùng pipeline; không bảo đảm giữ nguyên nhân vật qua mọi model hoặc góc máy."
+      }
+    ],
+    "freeDownloads": [
+      {
+        "name": "Shotlist mẫu đầy đủ 30 shot",
+        "file": "shotlist-3-minutes.csv",
+        "mime": "text/csv; charset=utf-8"
+      },
+      {
+        "name": "Hướng dẫn storyboard",
+        "file": "storyboard.html",
+        "mime": "text/html; charset=utf-8"
+      }
+    ],
+    "premiumDownloads": [
+      {
+        "name": "Công cụ tự chia thời lượng và xuất prompt",
+        "file": "plan-film.py",
+        "mime": "text/x-python; charset=utf-8"
+      }
+    ],
+    "premiumBenefit": "Tự chia tổng thời lượng, đánh số file và xuất gói prompt ComfyUI để chuẩn bị hàng loạt shot.",
+    "author": "F5 AI Studio",
+    "videoUrl": null
+  },
+  {
+    "id": "character",
+    "slug": "tao-nhan-vat-nhat-quan",
+    "title": "Tạo nhân vật dễ giữ nhất quán",
+    "description": "Xây hồ sơ nhân vật, khóa chi tiết nhận diện và chọn ảnh tham chiếu trước khi sản xuất hàng loạt.",
+    "type": "guide",
+    "category": "Nhân vật",
+    "image": "/images/character.png",
+    "duration": "14 phút",
+    "level": "Cơ bản",
+    "step": 4,
+    "featured": false,
+    "sections": [
+      {
+        "title": "Khóa 5 đặc điểm nhận diện",
+        "body": "Ghi rõ độ tuổi trưởng thành, kiểu tóc, màu áo, phụ kiện và phong cách hình ảnh. Ví dụ nhân vật Mai: người Việt khoảng 28 tuổi, tóc bob đen, áo khoác vàng mù tạt, túi vải xanh, phong cách minh họa điện ảnh. Dùng mô tả nhân vật hư cấu; chỉ dùng hình người thật làm tham chiếu khi có quyền phù hợp."
+      },
+      {
+        "title": "Chọn một ảnh chuẩn rồi tạo bộ kiểm tra",
+        "body": "Tạo lần lượt ảnh chính diện, góc 3/4 và toàn thân. Chọn một ảnh chuẩn có mặt và trang phục rõ. Tạo ảnh riêng cho mỗi góc; một ảnh chứa nhiều góc có thể làm model trộn nhân vật. Bộ miễn phí dùng prompt nhất quán và chọn lọc thủ công, không hứa giữ mặt tuyệt đối."
+      },
+      {
+        "title": "Kiểm tra trước khi duyệt",
+        "body": "Đặt ảnh cạnh nhau và so sánh tóc, quần áo, tuổi cảm nhận, tỷ lệ cơ thể và phụ kiện. Giữ prompt cố định cho nhận diện, chỉ đổi hành động và góc máy. Nếu cần ảnh tham chiếu, dùng giải pháp được hỗ trợ chính thức trong pipeline bạn cài và kiểm tra tương thích model; không thêm node ngẫu nhiên từ nguồn chưa biết."
+      }
+    ],
+    "freeDownloads": [
+      {
+        "name": "Prompt hồ sơ & góc nhân vật",
+        "file": "character-prompts.md",
+        "mime": "text/markdown; charset=utf-8"
+      },
+      {
+        "name": "Bài học tạo nhân vật",
+        "file": "character.html",
+        "mime": "text/html; charset=utf-8"
+      }
+    ],
+    "premiumDownloads": [
+      {
+        "name": "Prompt khóa nhận diện và kiểm tra drift",
+        "file": "advanced-prompt-pack.md",
+        "mime": "text/markdown; charset=utf-8"
+      }
+    ],
+    "premiumBenefit": "Một bộ mô tả cố định và bảng kiểm lỗi giúp chọn ảnh nhanh hơn, hạn chế đổi trang phục hoặc nhận diện.",
+    "author": "F5 AI Studio",
+    "videoUrl": null
+  },
+  {
+    "id": "environment",
+    "slug": "tao-boi-canh-dien-anh",
+    "title": "Tạo bối cảnh dùng lại qua nhiều shot",
+    "description": "Một bảng màu, một sơ đồ không gian và nhiều góc máy để cảnh phim liền mạch hơn.",
+    "type": "guide",
+    "category": "Bối cảnh",
+    "image": "/images/hero.png",
+    "duration": "11 phút",
+    "level": "Cơ bản",
+    "step": 5,
+    "featured": false,
+    "sections": [
+      {
+        "title": "Chỉ chọn hai không gian",
+        "body": "Phim mẫu dùng sảnh văn phòng và mái hiên bên đường. Viết một câu mô tả vật liệu, thời gian trong ngày, thời tiết, bảng màu và nguồn sáng. Ví dụ: chiều mưa, ánh xanh ngoài trời, đèn vàng dưới mái hiên, vỉa hè ướt. Tránh đổi ngày thành đêm giữa hai shot sát nhau nếu câu chuyện chưa giải thích."
+      },
+      {
+        "title": "Làm sơ đồ vị trí đơn giản",
+        "body": "Vẽ giấy hoặc dùng bảng miễn phí: cửa văn phòng bên trái, mái hiên ở giữa, đường bên phải. Ghi hướng nhìn của từng máy và nơi nhân vật đứng. Prompt cần nói rõ các yếu tố cố định; mô hình tạo ảnh vẫn có thể làm sai bố cục nên phải chọn và kiểm tra bằng mắt."
+      },
+      {
+        "title": "Sinh ảnh trống trước, ghép nhân vật sau",
+        "body": "Tạo 3 góc bối cảnh không có người để đánh giá ánh sáng và phối cảnh. Sau đó tạo shot với nhân vật ở cùng hướng sáng. Khi dựng, dùng một toàn cảnh đầu tiên để người xem hiểu địa điểm. Với nhân vật và nền chưa khớp, điều chỉnh màu và ánh sáng trong phần mềm dựng trước khi thử tạo lại hàng loạt."
+      }
+    ],
+    "freeDownloads": [
+      {
+        "name": "Prompt bối cảnh & bảng kiểm liên tục",
+        "file": "environment-prompts.md",
+        "mime": "text/markdown; charset=utf-8"
+      },
+      {
+        "name": "Bài học tạo bối cảnh",
+        "file": "environment.html",
+        "mime": "text/html; charset=utf-8"
+      }
+    ],
+    "premiumDownloads": [
+      {
+        "name": "Bộ prompt bối cảnh và liên tục cảnh",
+        "file": "advanced-prompt-pack.md",
+        "mime": "text/markdown; charset=utf-8"
+      }
+    ],
+    "premiumBenefit": "Mẫu mô tả ánh sáng, bố cục và bảng kiểm continuity giúp tái sử dụng bối cảnh có kiểm soát.",
+    "author": "F5 AI Studio",
+    "videoUrl": null
+  },
+  {
+    "id": "comfyui",
+    "slug": "comfyui-tao-keyframe-co-ban",
+    "title": "ComfyUI: tạo keyframe đầu tiên",
+    "description": "Workflow JSON dùng node lõi để tạo ảnh 16:9. Có hướng dẫn model và cách kiểm tra trước khi chạy.",
+    "type": "workflow",
+    "category": "Video",
+    "image": "/images/workflow.svg",
+    "duration": "18 phút",
+    "level": "Cơ bản",
+    "step": 6,
+    "featured": true,
+    "sections": [
+      {
+        "title": "Chuẩn bị model tương thích",
+        "body": "Cài ComfyUI theo tài liệu chính thức tại docs.comfy.org. Workflow đi kèm chỉ dùng node lõi, cho checkpoint Stable Diffusion 1.5. Tải một checkpoint SD1.5 từ nguồn chính thức mà bạn được phép sử dụng, đọc giấy phép, đặt vào ComfyUI/models/checkpoints rồi chọn tên file thực tế trong CheckpointLoaderSimple. Không có model nào được đóng gói trong tài nguyên này."
+      },
+      {
+        "title": "Nạp workflow và chạy một ảnh thử",
+        "body": "Kéo file comfyui-basic-sd15.json vào giao diện ComfyUI. Chọn checkpoint đã cài, thay prompt bằng mô tả một shot, giữ ảnh 768 × 432, batch 1, 20 steps và denoise 1.00. Nhấn Queue. Nếu thiếu checkpoint, chọn lại model; nếu thiếu bộ nhớ, giảm ảnh xuống 512 × 288 và giữ batch 1. Workflow SD1.5 này không dành cho SDXL, Flux hay model video."
+      },
+      {
+        "title": "Lưu và đánh giá keyframe",
+        "body": "Kiểm tra bàn tay, khuôn mặt, bố cục, phụ kiện và chữ không mong muốn. Lưu ảnh theo mã shot và ghi seed cùng model. Ảnh tốt là đầu vào của phần tạo chuyển động, không phải video hoàn chỉnh. Chạy một ảnh thành công trước khi tạo hàng loạt; cấu hình GPU và CPU quyết định thời gian xử lý thực tế."
+      },
+      {
+        "title": "Chuyển sang video bằng template được hỗ trợ",
+        "body": "Model video cần graph, bộ weight và phần cứng riêng. Mở template video được hỗ trợ trong ComfyUI hoặc tài liệu chính thức, kiểm tra từng model cần tải và yêu cầu VRAM. Không dùng graph SD1.5 này để tạo video. Bài kế tiếp hướng dẫn thử một clip ngắn và giữ phương án dựng ảnh khi máy chưa phù hợp."
+      }
+    ],
+    "freeDownloads": [
+      {
+        "name": "Workflow SD1.5: node lõi, ảnh 16:9",
+        "file": "comfyui-basic-sd15.json",
+        "mime": "application/json"
+      },
+      {
+        "name": "Hướng dẫn chạy và xử lý lỗi",
+        "file": "comfyui.html",
+        "mime": "text/html; charset=utf-8"
+      }
+    ],
+    "premiumDownloads": [
+      {
+        "name": "Tạo gói prompt ComfyUI API theo shotlist",
+        "file": "plan-film.py",
+        "mime": "text/x-python; charset=utf-8"
+      }
+    ],
+    "premiumBenefit": "Sinh nhiều payload API có mã shot và seed riêng; người dùng kiểm tra model rồi mới đưa vào hàng đợi ComfyUI.",
+    "author": "F5 AI Studio",
+    "videoUrl": null
+  },
+  {
+    "id": "video",
+    "slug": "tao-chuyen-dong-tu-keyframe",
+    "title": "Từ keyframe đến một clip ngắn",
+    "description": "Hướng dẫn chọn template video mã nguồn mở, thử chuyển động nhỏ và có phương án dựng ảnh tiết kiệm.",
+    "type": "video",
+    "category": "Video",
+    "image": "/images/hero.png",
+    "duration": "16 phút",
+    "level": "Trung cấp",
+    "step": 7,
+    "featured": true,
+    "sections": [
+      {
+        "title": "Video minh họa đang chờ bổ sung",
+        "body": "Trang hiện có hướng dẫn đọc và file thực hành; chưa có video giảng viên để phát. Để thử image-to-video, mở tài liệu chính thức của ComfyUI tại docs.comfy.org, chọn tutorial hoặc template video đang được hỗ trợ cho model bạn định dùng, ví dụ họ Wan. Kiểm tra bản ComfyUI, tên model, giấy phép, VRAM và cách tải weight trước khi chạy."
+      },
+      {
+        "title": "Thử một shot trước khi làm 30 shot",
+        "body": "Dùng keyframe rõ, một nhân vật và chuyển động đơn giản như quay đầu nhẹ hoặc máy tiến chậm. Chọn cấu hình nhỏ nhất mà template chính thức hỗ trợ, chạy một clip rồi đo thời gian, chất lượng và mức dùng GPU. Dùng đúng số frame và fps mà template yêu cầu; tính độ dài = số frame / fps và đặt clip vào timeline để kiểm tra."
+      },
+      {
+        "title": "Kiểm tra chuyển động và nối cảnh",
+        "body": "Xem từng frame ở đầu, giữa và cuối: mặt có đổi không, tay có biến dạng không, đồ vật có biến mất không? Prompt chuyển động nên nói việc đang xảy ra, tránh nhiều động tác hoặc góc máy cùng lúc. Một clip ngắn tốt có thể nối với cutaway hoặc ảnh tĩnh; không kéo dài bằng cách lặp gây giật nếu không phù hợp."
+      },
+      {
+        "title": "Phương án hoàn thành khi chưa có GPU video",
+        "body": "Dùng ảnh keyframe, đặt mỗi ảnh 6 giây trong Shotcut hoặc Kdenlive, thêm pan/zoom nhẹ, giọng đọc và âm thanh. Có thể làm đủ 180 giây bằng ảnh tạo AI mà không sinh video bằng model. Đây là phương án phim ảnh tĩnh có chuyển động máy; thời gian, hình ảnh và chi phí khi dùng model video cần thử trên phần cứng thực tế."
+      }
+    ],
+    "freeDownloads": [
+      {
+        "name": "Hướng dẫn thử clip và dựng ảnh thay thế",
+        "file": "video.html",
+        "mime": "text/html; charset=utf-8"
+      },
+      {
+        "name": "Shotlist 3 phút để dựng thử",
+        "file": "shotlist-3-minutes.csv",
+        "mime": "text/csv; charset=utf-8"
+      }
+    ],
+    "premiumDownloads": [
+      {
+        "name": "Bảng kiểm chất lượng trước khi chạy hàng loạt",
+        "file": "production-checklist.html",
+        "mime": "text/html; charset=utf-8"
+      }
+    ],
+    "premiumBenefit": "Quy trình thử một shot và kiểm tra lỗi giúp quyết định cấu hình trước khi tốn tài nguyên cho cả tập.",
+    "author": "F5 AI Studio",
+    "videoUrl": null
+  },
+  {
+    "id": "edit",
+    "slug": "dung-am-thanh-xuat-phim",
+    "title": "Dựng, âm thanh và xuất tập phim",
+    "description": "Ghép các shot thành phim 3 phút, thêm giọng đọc, phụ đề và xuất bản 16:9 hoặc 9:16.",
+    "type": "guide",
+    "category": "Hậu kỳ",
+    "image": "/images/edit.svg",
+    "duration": "20 phút",
+    "level": "Cơ bản",
+    "step": 8,
+    "featured": false,
+    "sections": [
+      {
+        "title": "Dựng theo câu chuyện, đo đủ 180 giây",
+        "body": "Tạo project 1920 × 1080, 24 fps trong Shotcut hoặc Kdenlive. Nhập 30 shot theo thứ tự trong CSV, đặt điểm vào/ra và điều chỉnh nhịp. Nếu dùng ảnh, đặt 6 giây mỗi ảnh và thêm chuyển động nhẹ. Cắt bỏ đoạn AI lỗi ở đầu hoặc cuối rồi bù bằng shot khác; đừng ép lỗi vào bản cuối chỉ để đủ thời lượng."
+      },
+      {
+        "title": "Làm giọng đọc và âm thanh dễ nghe",
+        "body": "Thu giọng bằng điện thoại ở phòng yên tĩnh hoặc dùng giọng tổng hợp có quyền phù hợp. Dùng Audacity để cắt tạp âm rõ rệt và cân âm lượng. Hạ nhạc dưới lời đọc, tránh âm thanh chạm đỉnh bị vỡ. Chỉ dùng nhạc và hiệu ứng có giấy phép cho mục đích định xuất bản; lưu bằng chứng giấy phép với project."
+      },
+      {
+        "title": "Thêm phụ đề và xuất đúng khung hình",
+        "body": "File SRT đi kèm là mẫu lời kể cho phim “Chiếc ô cuối cùng”, cần chỉnh timecode theo bản thu thật. Xuất MP4 H.264 với âm thanh AAC. Bản YouTube ngang dùng 1920 × 1080; bản dọc 1080 × 1920 cần căn lại chủ thể và phụ đề, không chỉ kéo giãn. Xem thử trên điện thoại để tránh chữ quá nhỏ hoặc bị giao diện nền tảng che."
+      },
+      {
+        "title": "Xem lại từ đầu đến cuối trước khi đăng",
+        "body": "Kiểm tra đúng 3 phút, không có khung đen vô ý, nhân vật và màu sắc liên tục, lời đọc rõ, phụ đề đúng chính tả. Tạo thumbnail trung thực và tiêu đề nói đúng câu chuyện. Lưu project, nguồn asset, prompt và giấy phép. Việc hoàn thành video không bảo đảm doanh thu; đánh giá hiệu quả kênh bằng phản hồi và số liệu thực tế."
+      }
+    ],
+    "freeDownloads": [
+      {
+        "name": "Bài học dựng & xuất phim",
+        "file": "edit.html",
+        "mime": "text/html; charset=utf-8"
+      },
+      {
+        "name": "Phụ đề SRT mẫu 3 phút",
+        "file": "sample-subtitles.srt",
+        "mime": "application/x-subrip; charset=utf-8"
+      }
+    ],
+    "premiumDownloads": [
+      {
+        "name": "Checklist duyệt bản cuối và tái sử dụng project",
+        "file": "production-checklist.html",
+        "mime": "text/html; charset=utf-8"
+      }
+    ],
+    "premiumBenefit": "Bảng kiểm sản xuất, bàn giao và tái sử dụng project giúp giảm lỗi và thao tác lặp ở tập tiếp theo.",
+    "author": "F5 AI Studio",
+    "videoUrl": null
+  }
+]
