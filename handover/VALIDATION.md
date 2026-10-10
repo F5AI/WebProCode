@@ -269,3 +269,10 @@ Thay đổi bảo mật đã khóa bằng test (`tests/backend.test.mjs`): origi
 Rà soát độc lập (sub-agent chỉ đọc, R-13) sau đợt sửa đầu: không có lỗi mức cao; 3 mức trung bình đã sửa và khóa test: (1) giới hạn theo IP đếm cả đăng nhập đúng nên văn phòng/proxy chung IP bị khóa → nay chỉ đếm lần sai, 50/IP, đăng ký riêng 30/IP; (2) khóa theo email chặn cả chủ tài khoản → nay mật khẩu đúng vẫn vào; (3) mỗi request parse lại toàn bộ CMS → cache catalogue trong bộ nhớ, danh sách bỏ `sections`. Mức thấp đã sửa: unique index một đơn chờ/người (3 request đồng thời tạo 1 đơn), bank chỉ cho người đăng nhập, URL ảnh/video phải https, `COOKIE_SECURE`/`TRUST_PROXY` nhận true/false và báo lỗi giá trị lạ, `APP_ORIGIN` http bị bỏ qua ở production, HSTS khi `APP_ORIGIN` https, `Cross-Origin-Resource-Policy`, xóa phiên cũ khi `npm run admin` đổi mật khẩu, `VOLUME /app/.data` trong Dockerfile, limiter giới hạn 5000 khóa. Chưa làm (ghi nhận): đơn chờ không hết hạn, `/api/health` công khai, enumeration email qua 409 khi đăng ký.
 
 Chưa chạy lại trong đợt này: `npm run preview:export` / `test:preview` (file HTML offline do phiên theme tối đang sinh lại, tránh ghi đè chéo), Docker, HTTPS thật.
+
+## 14. Publish kit và CI (11/10/2026, sau khi chủ dự án duyệt demo)
+
+- Commit `5821e1a` và `6a0c877` đã push lên `origin/claude-handover` (GitHub `F5AI/WebProCode`).
+- GitHub Actions `CI` (run 38076921912) **PASS** trên Ubuntu: `npm ci`, `npm test`, `npm run build`, build Docker image từ `Dockerfile`, chạy container và `/api/health` trả `"status":"ok"`, `/api/resources` có dữ liệu. Đây là lần đầu image Docker được build và chạy thật (trên runner CI).
+- Trên máy Windows này: Docker Desktop khởi động được tiến trình nhưng engine (`dockerDesktopLinuxEngine`) không lên, giống ghi nhận ở mục 11; không build image cục bộ được.
+- `deploy/docker-compose.yml` + `deploy/Caddyfile` chưa chạy trên VPS thật vì chưa có server/domain; runbook và bảng nghiệm thu ở `handover/PUBLISH.md`.
