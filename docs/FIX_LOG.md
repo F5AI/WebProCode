@@ -93,4 +93,4 @@ Ba con số theo dõi (tính trên 6 loại đầu, `/fix-review` tự tính):
 - Gốc: Anh đổi ý sau khi thấy giá .vn (ADR-004); không phải lỗi. Nên hỏi sớm "đuôi tên miền nào" trong PREFLIGHT khi tư vấn hosting.
 - Khóa: không áp dụng (tư vấn).
 - Luật: R-06 (giá đọc từ trang chính thức, có ngày), R-16 (tự rà: tên miền đã kiểm trống thật, không đoán).
-- Commit: (điền sau khi commit)
+- Commit: f66fdad
