@@ -75,4 +75,4 @@ Ba con số theo dõi (tính trên 6 loại đầu, `/fix-review` tự tính):
 - Gốc: Không phải lỗi; tư vấn. Lưu ý R-06: nguồn tổng hợp (blog so sánh) mâu thuẫn nhau, phải đọc trang chính thức.
 - Khóa: không áp dụng (advice).
 - Luật: R-06.
-- Commit: (điền sau khi commit)
+- Commit: bb613b6
